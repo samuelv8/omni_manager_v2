@@ -13,7 +13,7 @@ class DataTableWidget extends StatelessWidget {
         DataColumn(label: Text('Name')),
         DataColumn(label: Text('General Mean (%)')),
         DataColumn(label: Text('Workload')),
-        DataColumn(label: Text('Devieled Tasks (%)')),
+        DataColumn(label: Text('Delivered Tasks (%)')),
         DataColumn(label: Text('Work amount (%)')),
         DataColumn(label: Text('Proactivity (%)')),
       ],
