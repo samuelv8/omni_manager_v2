@@ -28,7 +28,7 @@ class ChartSectionLarge extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomTextContent(
-                  text: "Autoavaliação",
+                  text: "Self-Evaluation",
                   size: 20,
                   weight: FontWeight.bold,
                   color: dark,
@@ -46,7 +46,7 @@ class ChartSectionLarge extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomTextContent(
-                  text: "Desafios semanais",
+                  text: "Weekly Challenges",
                   size: 20,
                   weight: FontWeight.bold,
                   color: dark,

@@ -35,7 +35,7 @@ class DashboardPage extends StatelessWidget {
                     child: Column(
                   children: [
                     CustomTextTitle(
-                      text: "Resposta do gerente",
+                      text: "Evaluation by Manager",
                       size: 24,
                       weight: FontWeight.bold,
                       color: Colors.white,
@@ -48,7 +48,7 @@ class DashboardPage extends StatelessWidget {
                     child: Column(
                   children: [
                     CustomTextTitle(
-                      text: "Resposta do funcionário",
+                      text: "Employee's Self-evaluation",
                       size: 24,
                       weight: FontWeight.bold,
                       color: Colors.white,

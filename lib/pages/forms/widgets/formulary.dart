@@ -22,21 +22,21 @@ class _FormularyState extends State<Formulary> {
   final formKey = GlobalKey<FormState>();
 
   String textQuestion1 =
-      "Quantidade de tarefas atribuídas ao funcionário na semana:";
+      "Number of tasks assigned to the employee in the week:";
   String valueQuestion1 = '0';
   var optionsQuestion1 = ['0', '1', '2', '3', '4', '5'];
 
-  String textQuestion2 = "Quantidade de tarefas que o funcionário completou:";
+  String textQuestion2 = "Number of tasks the employee has completed:";
   String valueQuestion2 = '0';
   var optionsQuestion2 = ['0', '1', '2', '3', '4', '5'];
 
-  String textQuestion3 = "Qual a qualidade da entrega das tarefas?";
+  String textQuestion3 = "What is the quality of delivery of tasks?";
   String valueQuestion3 = 'Regular';
-  var optionsQuestion3 = ['Péssima', 'Ruim', 'Regular', 'Boa', 'Excelente'];
+  var optionsQuestion3 = ['Very bad', 'Bad', 'Regular', 'Good', 'Excellent'];
 
-  String textQuestion4 = "O quanto o funcionário foi proativo?";
-  String valueQuestion4 = 'Satisfatorio';
-  var optionsQuestion4 = ['Nada', 'Pouco', 'Satisfatorio', 'Muito'];
+  String textQuestion4 = "How proactive was the employee?";
+  String valueQuestion4 = 'Satisfatory';
+  var optionsQuestion4 = ['nothing', 'Litter', 'Satisfatoy', 'very much'];
 
   @override
   void initState() {
@@ -108,7 +108,7 @@ class _FormularyState extends State<Formulary> {
                       validator: (value) {
                         if (int.parse(value ?? '') >
                             int.parse(valueQuestion2)) {
-                          return "Valor incompatível";
+                          return "Inexistent value";
                         }
                         return null;
                       },
@@ -241,7 +241,7 @@ class _FormularyState extends State<Formulary> {
     } else {
       return Container(
         alignment: Alignment.center,
-        child: Text("Não há formulários pendentes!"),
+        child: Text("No pending forms!"),
       );
     }
   }

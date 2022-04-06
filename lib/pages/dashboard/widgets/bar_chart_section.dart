@@ -101,7 +101,7 @@ class _StatefulWrapperState extends State<BarChartDash> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomTextContent(
-                  text: "Taxa de finalização de tarefas",
+                  text: "Finished Tasks Rate",
                   size: 20,
                   weight: FontWeight.bold,
                   color: dark,
@@ -124,7 +124,7 @@ class _StatefulWrapperState extends State<BarChartDash> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomTextContent(
-                  text: "Carga de trabalho",
+                  text: "Workload",
                   size: 20,
                   weight: FontWeight.bold,
                   color: dark,

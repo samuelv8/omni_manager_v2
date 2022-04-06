@@ -131,8 +131,8 @@ class _OverviewCardsState extends State<OverviewCardsLargeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InfoCard(
-                          title: "Proatividade",
-                          subtitle: "Resposta do funcionário",
+                          title: "Productivity",
+                          subtitle: "Employee's answer",
                           value: ((_proactivityEmp?[_selected] ?? 0) * 100)
                                   .toStringAsFixed(1) +
                               "%",
@@ -142,8 +142,8 @@ class _OverviewCardsState extends State<OverviewCardsLargeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InfoCard(
-                          title: "Proatividade",
-                          subtitle: "Resposta do gerente",
+                          title: "Productivity",
+                          subtitle: "Manager's evaluation",
                           value: ((_proactivityMan?[_selected] ?? 0) * 100)
                                   .toStringAsFixed(1) +
                               "%",
@@ -153,8 +153,8 @@ class _OverviewCardsState extends State<OverviewCardsLargeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InfoCard(
-                          title: "Qualidade",
-                          subtitle: "Resposta do funcionário",
+                          title: "Quality",
+                          subtitle: "Employee's answer",
                           value: ((_qualityEmp?[_selected] ?? 0) * 100)
                                   .toStringAsFixed(1) +
                               "%",
@@ -164,8 +164,8 @@ class _OverviewCardsState extends State<OverviewCardsLargeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InfoCard(
-                          title: "Qualidade",
-                          subtitle: "Resposta do gerente",
+                          title: "Quality",
+                          subtitle: "Manager's evaluation",
                           value: ((_qualityMan?[_selected] ?? 0) * 100)
                                   .toStringAsFixed(1) +
                               "%",

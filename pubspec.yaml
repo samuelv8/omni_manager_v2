@@ -38,7 +38,7 @@ dependencies:
   google_fonts: ^2.1.0
   charts_flutter: 
     git:
-      url: git://github.com/google/charts.git
+      url: https://github.com/google/charts.git
       path: charts_flutter
   get: ^4.1.4
   data_table_2: ^2.0.3
