@@ -4,11 +4,12 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site": "omnimanager",
+    "site": "omni-manager-eb2e1",
     "public": "build/web",
     "ignore": [
       "firebase.json",
-      "**/.*"
+      "**/.*",
+      "**/node_modules/**"
     ],
     "rewrites": [
       {
