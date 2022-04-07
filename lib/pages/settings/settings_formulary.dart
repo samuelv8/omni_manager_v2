@@ -20,11 +20,11 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
 
   final formKey = GlobalKey<FormState>();
 
-  String textQuestion1 = "Digite seu novo email de usuário:";
+  String textQuestion1 = "Enter your new user email:";
 
-  String textQuestion2 = "Digite sua nova senha:";
+  String textQuestion2 = "Enter your new password:";
 
-  String textQuestion3 = "Digite sua nova senha novamente:";
+  String textQuestion3 = "Enter your new password again:";
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                   Container(
                     width: 300,
                     child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Nome')),
+                        decoration: InputDecoration(labelText: 'Name')),
                   ),
                   SizedBox(
                     height: 60,
@@ -60,7 +60,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                   Container(
                     width: 300,
                     child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Senha')),
+                        decoration: InputDecoration(labelText: 'Password')),
                   ),
                   SizedBox(
                     height: 60,
@@ -72,7 +72,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                     width: 300,
                     child: TextFormField(
                         decoration:
-                            InputDecoration(labelText: 'Senha novamente')),
+                            InputDecoration(labelText: 'Password Again')),
                   ),
                   SizedBox(
                     height: 60,
@@ -82,7 +82,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                       Navigator.pushReplacementNamed(
                           context, HomePage.routeName);
                     },
-                    child: Text("Salvar"),
+                    child: Text("Save"),
                   ),
                 ],
               ),

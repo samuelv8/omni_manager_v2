@@ -34,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 30.0),
                     child: CustomTextTitle(
-                      text: "Configurações",
+                      text: "Configurations",
                       size: 40,
                       weight: FontWeight.bold,
                     ),
