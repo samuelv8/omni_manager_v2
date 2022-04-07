@@ -1,6 +1,11 @@
 {
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
   "hosting": {
-    "public": "public",
+    "site": "omni-manager-eb2e1",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
       "**/.*",
