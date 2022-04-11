@@ -13,21 +13,24 @@ Future<UserCredential> signIn(String email, String password) async {
   }
 }
 
-Future<bool> register(Map userData) async {
+Future<bool> register(Map<String, dynamic> userData) async {
   try {
-    return FirebaseAuth.instance
+    var password = userData['password'];
+    var uid = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
-            email: userData["email"], password: userData["password"])
+            email: userData["email"], password: password)
         .then((credential) {
-      userData.remove("password");
-      users
-          .doc(credential.user?.uid)
-          .set(userData, SetOptions(merge: true))
-          .then((value) => print("User added"));
-          return true;
+      return credential.user?.uid;
     });
+    userData.remove("password");
+    print(uid);
+    users
+        .doc(uid)
+        .set(userData, SetOptions(merge: true))
+        .then((value) => print("User added"));
+    return true;
   } catch (e) {
-    return Future.error(e);
+    throw Future.error(e);
   }
 }
 
