@@ -23,7 +23,6 @@ Future<bool> register(Map<String, dynamic> userData) async {
       return credential.user?.uid;
     });
     userData.remove("password");
-    print(uid);
     users
         .doc(uid)
         .set(userData, SetOptions(merge: true))
