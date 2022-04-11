@@ -19,16 +19,17 @@ class PieOutsideLabelChart extends StatelessWidget {
 
   factory PieOutsideLabelChart.withUnformattedData(
       Map<String, double>? rawData) {
-    if (rawData != null) {
+    if (rawData != null && rawData.isNotEmpty) {
       return new PieOutsideLabelChart(
         _formatData(rawData),
         animate: false,
       );
-    } else return new PieOutsideLabelChart(
+    } else
+      return new PieOutsideLabelChart(
         _createSampleData(),
         // Disable animations for image tests.
         animate: false,
-      ); 
+      );
   }
 
   @override
@@ -46,30 +47,26 @@ class PieOutsideLabelChart extends StatelessWidget {
         //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
         //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
         defaultRenderer: new charts.ArcRendererConfig(
-          arcWidth: 40,
-          arcRendererDecorators: [
-          new charts.ArcLabelDecorator(
-              labelPosition: charts.ArcLabelPosition.outside)
-        ]));
+            arcWidth: 40,
+            arcRendererDecorators: [
+              new charts.ArcLabelDecorator(
+                  labelPosition: charts.ArcLabelPosition.outside)
+            ]));
   }
 
   /// Create one series with sample hard coded data.
   static List<charts.Series<LinearMetrics, int>> _createSampleData() {
     final data = [
-      new LinearMetrics(0, 90, "A"),
-      new LinearMetrics(1, 75, "B"),
-      new LinearMetrics(2, 25, "C"),
-      new LinearMetrics(3, 15, "D"),
+      new LinearMetrics(0, 1, "A"),
     ];
 
     return [
       new charts.Series<LinearMetrics, int>(
         id: 'Metrics',
         colorFn: (_, __) => charts.MaterialPalette.yellow.shadeDefault,
-        domainFn: (LinearMetrics metrics, _) => metrics.year,
+        domainFn: (LinearMetrics metrics, _) => metrics.id,
         measureFn: (LinearMetrics metrics, _) => metrics.metric,
         data: data,
-        labelAccessorFn: (LinearMetrics row, _) => '${row.label}',
       )
     ];
   }
@@ -81,12 +78,11 @@ class PieOutsideLabelChart extends StatelessWidget {
     rawData.forEach((key, value) {
       data.add(new LinearMetrics(data.length, value, key));
     });
-
     return [
       new charts.Series<LinearMetrics, int>(
         id: 'Metrics',
         colorFn: (_, __) => charts.MaterialPalette.yellow.shadeDefault,
-        domainFn: (LinearMetrics metrics, _) => metrics.year,
+        domainFn: (LinearMetrics metrics, _) => metrics.id,
         measureFn: (LinearMetrics metrics, _) => metrics.metric,
         data: data,
         labelAccessorFn: (LinearMetrics row, _) => '${row.label}',
@@ -97,9 +93,9 @@ class PieOutsideLabelChart extends StatelessWidget {
 
 /// Sample linear data type.
 class LinearMetrics {
-  final int year;
+  final int id;
   final double metric;
   final String label;
 
-  LinearMetrics(this.year, this.metric, this.label);
+  LinearMetrics(this.id, this.metric, this.label);
 }

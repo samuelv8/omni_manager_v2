@@ -19,13 +19,13 @@ Future<bool> register(Map userData) async {
         .createUserWithEmailAndPassword(
             email: userData["email"], password: userData["password"])
         .then((credential) {
-      userData.remove("password");
-      users
-          .doc(credential.user?.uid)
-          .set(userData, SetOptions(merge: true))
-          .then((value) => print("User added"));
-          return true;
-    });
+          userData.remove("password");
+          users
+              .doc(credential.user?.uid)
+              .set(userData, SetOptions(merge: true))
+              .then((value) => print("User added"));
+              return true;
+        });
   } catch (e) {
     return Future.error(e);
   }
