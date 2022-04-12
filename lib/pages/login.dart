@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final _passwordController = TextEditingController();
 
+  //function to show pop-up window asking for registered email
   createAlertDialog(BuildContext context) {
     TextEditingController customController = TextEditingController();
 
