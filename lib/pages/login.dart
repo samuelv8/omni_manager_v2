@@ -18,6 +18,29 @@ class _LoginPageState extends State<LoginPage> {
 
   final _passwordController = TextEditingController();
 
+  createAlertDialog(BuildContext context) {
+    TextEditingController customController = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text("Write your registered email"),
+              content: TextField(
+                controller: customController,
+              ),
+              actions: <Widget>[
+                MaterialButton(
+                  elevation: 5.0,
+                  child: Text("Submmit"),
+                  onPressed: () {
+                    createAlertDialog(context);
+                  },
+                )
+              ]);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,7 +145,9 @@ class _LoginPageState extends State<LoginPage> {
                               height: 10,
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                createAlertDialog(context);
+                              },
                               child: Text("Forgot your password?"),
                             )
                           ],
