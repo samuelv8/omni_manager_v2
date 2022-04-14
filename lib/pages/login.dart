@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final _passwordController = TextEditingController();
 
-  static final RegExp reg = new RegExp(r"^[a-z\.1-9]+@(gmail)|(outlook)|(live)|(hotmail)|(mac)|(icloud)|(me)|(manager)\.(com)$");
+  final RegExp reg = new RegExp(r"^[a-z\.1-9]+@(gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)$");
 
   @override
   Widget build(BuildContext context) {
