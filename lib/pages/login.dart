@@ -7,6 +7,7 @@ import 'package:omni_manager/api/firebase.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = "/login";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -17,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
 
   final _passwordController = TextEditingController();
+
+  static final RegExp reg = new RegExp(r"^[a-z\.1-9]+@(gmail)|(outlook)|(live)|(hotmail)|(mac)|(icloud)|(me)|(manager)\.(com)$");
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,9 @@ class _LoginPageState extends State<LoginPage> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your e-mail';
+                                }
+                                if (!reg.hasMatch(value)){
+                                  return 'Please enter a valid email';
                                 }
                                 return null;
                               },
