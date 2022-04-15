@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/login.dart';
-import 'package:omni_manager/utils/constants.dart';
+import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/pages/manager_validation.dart';
 //import 'package:omni_manager/api/queries.dart';
@@ -141,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 _passwordController.text)
                                             .then((value) {
                                           Constants.prefs
-                                              .setBool("loggedIn", true);
+                                              !.setBool("loggedIn", true);
 
                                           Navigator.pushReplacementNamed(
                                               context,

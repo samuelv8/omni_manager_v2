@@ -8,12 +8,11 @@ import 'package:omni_manager/pages/manager_validation.dart';
 import 'package:omni_manager/pages/register.dart';
 import 'package:omni_manager/pages/settings/settings.dart';
 import 'package:omni_manager/pages/forms/forms.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'utils/constants.dart';
+import 'utils/shared_prefs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await Constants.getPrefs();
   runApp(App());
 }
 
@@ -85,7 +84,7 @@ class MyApp extends StatelessWidget {
         LogicalKeySet(LogicalKeyboardKey.tab): ActivateIntent(),
       },
       debugShowCheckedModeBanner: false,
-      home: Constants.prefs.getBool("loggedIn") == true
+      home: Constants.prefs!.getBool("loggedIn") == true
           ? HomePage()
           : LoginPage(),
       theme: ThemeData(
