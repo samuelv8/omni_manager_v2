@@ -113,22 +113,50 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
+                                    ScaffoldMessenger.of(context)
+                                            .hideCurrentMaterialBanner();
                                     if (formKey.currentState!.validate()) {
                                       bool successfulRegister = await register({
                                         "email": _usernameController.text,
                                         "password": _passwordController.text,
                                         "name": _nameController.text,
                                       }).catchError((err) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                "Failed to authenticate: ${err.message}"),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar();
+                                        if (err.message ==
+                                            "email-already-in-use") {
+                                          ScaffoldMessenger.of(context)
+                                              .showMaterialBanner(
+                                            MaterialBanner(
+                                              content: Text(
+                                                  "Email already in use. Did you forget your password?"),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .hideCurrentMaterialBanner();
+                                                  },
+                                                  child: Text(
+                                                    'Close',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ],
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  "Failed to authenticate: ${err.message}"),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                        }
                                       });
 
                                       if (successfulRegister) {
@@ -157,6 +185,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentMaterialBanner();
                                     Navigator.pushReplacementNamed(
                                         context, LoginPage.routeName);
                                   },
