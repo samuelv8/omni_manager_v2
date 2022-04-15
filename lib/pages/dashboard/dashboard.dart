@@ -8,7 +8,6 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("dashboard");
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       alignment: Alignment.topLeft,

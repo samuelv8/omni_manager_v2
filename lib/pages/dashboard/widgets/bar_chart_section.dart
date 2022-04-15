@@ -64,9 +64,6 @@ class _StatefulWrapperState extends State<BarChartDash> {
         }
       }
     });
-    print("is_manager = ${isManager}");
-    print(empDataWL);
-    print(empDataCompl);
     setState(() {
       _empDataCompl = empDataCompl;
       _empDataWL = empDataWL;
