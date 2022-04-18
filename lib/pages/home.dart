@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 _selectedIndex = index;
               });
             },
-            labelType: NavigationRailLabelType.selected,
+            labelType: NavigationRailLabelType.all,
             destinations: [
               if (loggedUserIsManager)
                 NavigationRailDestination(

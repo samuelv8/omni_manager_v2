@@ -113,12 +113,18 @@ class _LoginPageState extends State<LoginPage> {
                               height: 10,
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, RegisterPage.routeName);
-                              },
-                              child: Text("Register"),
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, RegisterPage.routeName);
+                                },
+                                child: Text("Register")),
+                            SizedBox(
+                              height: 10,
                             ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Text("Forgot your password?"),
+                            )
                           ],
                         ),
                       ),
