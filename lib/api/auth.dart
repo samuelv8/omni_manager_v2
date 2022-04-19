@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:omni_manager/utils/shared_prefs.dart';
 
 CollectionReference users = FirebaseFirestore.instance.collection("Users");
 bool loggedUserIsManager = false;
@@ -24,7 +25,7 @@ Future<bool> register(Map userData) async {
           .doc(credential.user?.uid)
           .set(userData, SetOptions(merge: true))
           .then((value) => print("User added"));
-          return true;
+      return true;
     });
   } catch (e) {
     return Future.error(e);
@@ -32,7 +33,8 @@ Future<bool> register(Map userData) async {
 }
 
 String getUserUid() {
-  return FirebaseAuth.instance.currentUser!.uid;
+  var user = FirebaseAuth.instance.currentUser;
+  return user?.uid ?? Constants.prefs!.getString("uid")!;
 }
 
 Future<bool> updateInfo(String password) async {
