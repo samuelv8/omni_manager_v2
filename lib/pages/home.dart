@@ -5,7 +5,7 @@ import 'package:omni_manager/pages/forms/forms.dart';
 import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/pages/settings/settings.dart';
 import 'package:omni_manager/pages/spreadsheet/spreadsheet.dart';
-import 'package:omni_manager/utils/constants.dart';
+import 'package:omni_manager/utils/shared_prefs.dart';
 // import '../api/firebase.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
-              Constants.prefs.setBool("loggedIn", false);
+              Constants.prefs!.setBool("loggedIn", false);
               Navigator.pushReplacementNamed(context, LoginPage.routeName);
             },
           )
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 _selectedIndex = index;
               });
             },
-            labelType: NavigationRailLabelType.selected,
+            labelType: NavigationRailLabelType.all,
             destinations: [
               if (loggedUserIsManager)
                 NavigationRailDestination(

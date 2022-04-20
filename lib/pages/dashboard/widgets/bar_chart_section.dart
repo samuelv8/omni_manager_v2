@@ -7,7 +7,7 @@ import 'package:omni_manager/pages/dashboard/widgets/custom_text_content.dart';
 import 'package:omni_manager/pages/dashboard/widgets/pie_chart.dart';
 
 class BarChartDash extends StatefulWidget {
-  bool isManager;
+  final bool isManager;
 
   BarChartDash({required this.isManager});
 
