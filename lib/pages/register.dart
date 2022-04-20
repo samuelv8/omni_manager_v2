@@ -113,22 +113,27 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
+                                    Map<String, dynamic> userData = {
+                                      "email": _usernameController.text,
+                                      "password": _passwordController.text,
+                                      "name": _nameController.text,
+                                    };
                                     if (formKey.currentState!.validate()) {
-                                      bool successfulRegister = await register({
-                                        "email": _usernameController.text,
-                                        "password": _passwordController.text,
-                                        "name": _nameController.text,
-                                      }).catchError((err) {
+                                      bool successfulRegister =
+                                          await register(userData)
+                                              .then((value) => value)
+                                              .catchError((err) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                                "Failed to authenticate: ${err.message}"),
+                                                "Failed to authenticate: ${err.toString()}"),
                                             backgroundColor: Colors.red,
                                           ),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .hideCurrentSnackBar();
+                                        return false;
                                       });
 
                                       if (successfulRegister) {
