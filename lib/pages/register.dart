@@ -117,6 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       "email": _usernameController.text,
                                       "password": _passwordController.text,
                                       "name": _nameController.text,
+                                      "isemailvalidated": false,
                                     };
                                     if (formKey.currentState!.validate()) {
                                       bool successfulRegister =

@@ -24,6 +24,21 @@ class Database {
       return false;
     });
   }
+  
+  static Future<bool> checkEmailValidated(String email) async {
+    // flow: vai encontrar o doc com email, e retornar o status de validação do email
+    return _users
+        .where("email", isEqualTo: email)
+        .limit(1)
+        .get()
+        .then((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        print("EmailValidation: ", snapshot.data()["isemailvalidated"])
+        return true;
+      }
+      return false;
+    });
+  }
 
   static Future<QuerySnapshot> listRatings() {
     return _metrics.doc(userUid).collection('Formularies').get();
