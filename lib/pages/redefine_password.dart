@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-//import 'package:omni_manager/pages/login.dart';
-//import 'package:omni_manager/utils/constants.dart';
-//import 'package:omni_manager/api/auth.dart';
-//import 'package:omni_manager/pages/manager_validation.dart';
-//import 'package:omni_manager/api/queries.dart';
 
-class RegisterPage extends StatefulWidget {
-  static const String routeName = "/register";
+class RedefinePasswordPage extends StatefulWidget {
+  static const String routeName = "/redefine";
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _RedefinePasswordPageState createState() => _RedefinePasswordPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RedefinePasswordPageState extends State<RedefinePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
