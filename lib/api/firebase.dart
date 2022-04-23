@@ -34,8 +34,8 @@ class Database {
         .then((snapshot) {
       if (snapshot.docs.isNotEmpty) {
         print("EmailValidation: ");
-        print(snapshot.docs);
-        return true;
+        print(snapshot);
+        return false;
       }
       return false;
     });
