@@ -33,7 +33,8 @@ class Database {
         .get()
         .then((snapshot) {
       if (snapshot.docs.isNotEmpty) {
-        print("EmailValidation: ", snapshot.data()["isemailvalidated"])
+        print("EmailValidation: ");
+        print(snapshot.docs);
         return true;
       }
       return false;

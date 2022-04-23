@@ -102,11 +102,13 @@ class _LoginPageState extends State<LoginPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(content: Text('Loading...')),
                                   );
+                                  bool validEmail = 
+                                    await Database.checkEmailValidated(_usernameController.text);
                                   signIn(_usernameController.text,
                                           _passwordController.text)
                                       .then((value) {
                                     // checa se email já foi validado
-                                    if(Database.checkEmailValidated(_usernameController.text)){    
+                                    if(validEmail){    
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content:
