@@ -33,9 +33,10 @@ class Database {
         .get()
         .then((snapshot) {
       if (snapshot.docs.isNotEmpty) {
-        print("EmailValidation: ");
-        print(snapshot);
-        return false;
+        var data = snapshot.docs[0].data();
+        if(data != null){
+          return (data as Map)["isemailvalidated"] ;
+        }
       }
       return false;
     });
