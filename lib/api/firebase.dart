@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:omni_manager/api/auth.dart';
 
@@ -17,12 +16,7 @@ class Database {
         .where("department", isEqualTo: managerData["department"])
         .limit(1)
         .get()
-        .then((snapshot) {
-      if (snapshot.docs.isNotEmpty) {
-        return true;
-      }
-      return false;
-    });
+        .then((snapshot) => snapshot.docs.isNotEmpty);
   }
 
   static Future<QuerySnapshot> listRatings() {
@@ -47,8 +41,7 @@ class Database {
     });
   }
 
-  static Future<DocumentSnapshot> getEmployeeData(
-      DocumentSnapshot employee) {
+  static Future<DocumentSnapshot> getEmployeeData(DocumentSnapshot employee) {
     return employee.get(FieldPath(['ref'])).get();
   }
 
@@ -93,7 +86,8 @@ class Database {
         .get();
   }
 
-  static Future<QuerySnapshot> getEmployeeFormsLast7Days(String empID, bool isManager) {
+  static Future<QuerySnapshot> getEmployeeFormsLast7Days(
+      String empID, bool isManager) {
     return _metrics
         .doc(empID)
         .collection("Formularies")
@@ -142,36 +136,12 @@ class Database {
               'submission_date': Timestamp.now()
             }));
   }
-}
 
-// example
-class GetUserName extends StatelessWidget {
-  final String docID;
+  static Future<QuerySnapshot> getUserFromEmail(String userEmail) {
+    return _users.where("email", isEqualTo: userEmail).get();
+  }
 
-  GetUserName(this.docID);
-
-  @override
-  Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection("Users");
-
-    return FutureBuilder<DocumentSnapshot>(
-        future: users.doc(this.docID).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            print("Snapshot error: ${snapshot.error}");
-            return Text("Something went wrong");
-          }
-          if (snapshot.hasData && !(snapshot.data!.exists)) {
-            return Text("No data has been retrieved");
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            return Text("${data['name']}");
-          }
-
-          return Text("Loading...");
-        });
+  static Future<bool> emailExistsInDatabase(String userEmail) {
+    return getUserFromEmail(userEmail).then((value) => value.docs.isNotEmpty);
   }
 }

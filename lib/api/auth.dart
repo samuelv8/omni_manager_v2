@@ -24,7 +24,7 @@ Future<bool> register(Map userData) async {
           .doc(credential.user?.uid)
           .set(userData, SetOptions(merge: true))
           .then((value) => print("User added"));
-          return true;
+      return true;
     });
   } catch (e) {
     return Future.error(e);
@@ -91,5 +91,13 @@ Future<bool> updateUserData(Map<String, dynamic> userData) async {
   } catch (e) {
     print(e.toString());
     return false;
+  }
+}
+
+Future<void> sendRecoveryEmail(String userEmail) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
+  } on FirebaseAuthException catch (e) {
+    print(e.message);
   }
 }
