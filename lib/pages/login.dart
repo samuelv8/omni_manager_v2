@@ -19,7 +19,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final _passwordController = TextEditingController();
 
-  final RegExp reg = new RegExp(r"^[a-z\.1-9]+@(gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)$");
+  final RegExp reg = new RegExp(
+      r"^[a-z\.1-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com))$");
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your e-mail';
                                 }
-                                if (!reg.hasMatch(value)){
+                                if (!reg.hasMatch(value)) {
                                   return 'Please enter a valid email';
                                 }
                                 return null;
