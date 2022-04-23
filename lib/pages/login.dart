@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/home.dart';
 import 'package:omni_manager/pages/register.dart';
-import 'package:omni_manager/utils/constants.dart';
+import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';
 
@@ -17,6 +17,30 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
 
   final _passwordController = TextEditingController();
+
+  //function to show pop-up window asking for registered email
+  createAlertDialog(BuildContext context) {
+    TextEditingController customController = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text("Write your registered email"),
+              content: TextField(
+                controller: customController,
+              ),
+              actions: <Widget>[
+                MaterialButton(
+                  elevation: 5.0,
+                  child: Text("Submmit"),
+                  onPressed: () {
+                    createAlertDialog(context);
+                  },
+                )
+              ]);
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     );
                                     Database.userUid = value.user?.uid;
-                                    Constants.prefs.setBool("loggedIn", true);
+                                    Constants.prefs!.setBool("loggedIn", true);
+                                    Constants.prefs!
+                                        .setString("uid", value.user!.uid);
                                     ScaffoldMessenger.of(context)
                                         .hideCurrentSnackBar();
                                     Navigator.pushReplacementNamed(
@@ -113,12 +139,20 @@ class _LoginPageState extends State<LoginPage> {
                               height: 10,
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, RegisterPage.routeName);
-                              },
-                              child: Text("Register"),
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, RegisterPage.routeName);
+                                },
+                                child: Text("Register")),
+                            SizedBox(
+                              height: 10,
                             ),
+                            ElevatedButton(
+                              onPressed: () {
+                                createAlertDialog(context);
+                              },
+                              child: Text("Forgot your password?"),
+                            )
                           ],
                         ),
                       ),
