@@ -22,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final _repeatpasswordController = TextEditingController();
 
-  final RegExp reg = new RegExp(r"^[a-z\.1-9]+@(gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)$");
+  final RegExp reg = new RegExp(r"^[a-z\.1-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com))$");
 
   @override
   Widget build(BuildContext context) {
