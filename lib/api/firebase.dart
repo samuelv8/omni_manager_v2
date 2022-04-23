@@ -25,6 +25,20 @@ class Database {
     });
   }
 
+  static Future<bool> notRegistered(String email) async {
+    // flow: vai encontrar o doc com email, determinar se existe e retornar um bool
+    return _users
+        .where("email", isEqualTo: email)
+        .limit(1)
+        .get()
+        .then((snapshot) {
+      if (snapshot.docs.isEmpty) {
+        return false;
+      }
+      return true;
+    });
+  }
+
   static Future<QuerySnapshot> listRatings() {
     return _metrics.doc(userUid).collection('Formularies').get();
   }
