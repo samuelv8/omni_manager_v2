@@ -21,9 +21,7 @@ Future<bool> register(Map<String, dynamic> userData) async {
         .createUserWithEmailAndPassword(
             email: userData["email"], password: password)
         .then((credential) {
-          
       return credential.user?.uid;
-
     });
     userData.remove("password");
     users
@@ -104,6 +102,6 @@ Future<void> sendRecoveryEmail(String userEmail) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
   } on FirebaseAuthException catch (e) {
-    print(e.message);
+    throw e;
   }
 }
