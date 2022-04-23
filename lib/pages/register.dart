@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/login.dart';
-import 'package:omni_manager/utils/constants.dart';
+import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/pages/manager_validation.dart';
 //import 'package:omni_manager/api/queries.dart';
@@ -113,22 +113,27 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
+                                    Map<String, dynamic> userData = {
+                                      "email": _usernameController.text,
+                                      "password": _passwordController.text,
+                                      "name": _nameController.text,
+                                    };
                                     if (formKey.currentState!.validate()) {
-                                      bool successfulRegister = await register({
-                                        "email": _usernameController.text,
-                                        "password": _passwordController.text,
-                                        "name": _nameController.text,
-                                      }).catchError((err) {
+                                      bool successfulRegister =
+                                          await register(userData)
+                                              .then((value) => value)
+                                              .catchError((err) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                                "Failed to authenticate: ${err.message}"),
+                                                "Failed to authenticate: ${err.toString()}"),
                                             backgroundColor: Colors.red,
                                           ),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .hideCurrentSnackBar();
+                                        return false;
                                       });
 
                                       if (successfulRegister) {
@@ -141,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 _passwordController.text)
                                             .then((value) {
                                           Constants.prefs
-                                              .setBool("loggedIn", true);
+                                              !.setBool("loggedIn", true);
 
                                           Navigator.pushReplacementNamed(
                                               context,

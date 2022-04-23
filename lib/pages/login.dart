@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/home.dart';
 import 'package:omni_manager/pages/register.dart';
-import 'package:omni_manager/utils/constants.dart';
+import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';
 
@@ -113,7 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     );
                                     Database.userUid = value.user?.uid;
-                                    Constants.prefs.setBool("loggedIn", true);
+                                    Constants.prefs!.setBool("loggedIn", true);
+                                    Constants.prefs!
+                                        .setString("uid", value.user!.uid);
                                     ScaffoldMessenger.of(context)
                                         .hideCurrentSnackBar();
                                     Navigator.pushReplacementNamed(
