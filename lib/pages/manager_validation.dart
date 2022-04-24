@@ -176,10 +176,13 @@ class _ValidationPageState extends State<ValidationPage> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                              content: Text('Loading...')),
+                                              duration: const Duration(seconds: 20),
+                                              content: Text('Successful register! Please verify your e-mail for signing in. A verification e-mail has been sent to you.'),
+                                              backgroundColor: Colors.green,
+                                          ),
                                         );
                                         Navigator.pushReplacementNamed(
-                                            context, HomePage.routeName);
+                                            context, LoginPage.routeName);
                                       }
                                     }
                                   },
