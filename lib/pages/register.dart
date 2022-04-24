@@ -93,6 +93,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter your password';
                                     }
+                                    if (value.length < 6) {
+                                      return 'Very small password. Your password must be 6 or more characters long.';
+                                    }
                                     return null;
                                   },
                                 ),
@@ -109,6 +112,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     }
                                     if (value != _passwordController.text) {
                                       return 'Unmatched passwords! Try typing again.';
+                                    }
+                                    if (value.length < 6) {
+                                      return 'Very small password. Your password must be 6 or more characters long.';
                                     }
                                     return null;
                                   },
