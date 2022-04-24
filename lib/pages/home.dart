@@ -6,7 +6,6 @@ import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/pages/settings/settings.dart';
 import 'package:omni_manager/pages/spreadsheet/spreadsheet.dart';
 import 'package:omni_manager/utils/shared_prefs.dart';
-// import '../api/firebase.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home";
