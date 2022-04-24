@@ -124,51 +124,59 @@ class _RegisterPageState extends State<RegisterPage> {
                                       "password": _passwordController.text,
                                       "name": _nameController.text,
                                     };
-                                    if (formKey.currentState!.validate()){
-                                        bool successfulRegister =
-                                            await register(userData)
-                                                .then((value) => value)
-                                                .catchError((err) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  "Failed to authenticate: ${err.toString()}"),
-                                              backgroundColor: Colors.red,
-                                            ),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          return false;
-                                        });
-                                        if (successfulRegister) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                content: Text('Loading...')),
-                                          );
-                                          signIn(_usernameController.text,
-                                                  _passwordController.text)
-                                              .then((value) {
+                                    if (formKey.currentState!.validate()) {
+                                      bool successfulRegister =
+                                          await register(userData)
+                                              .then((value) => value)
+                                              .catchError((err) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                "Failed to authenticate: ${err.toString()}"),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentSnackBar();
+                                        return false;
+                                      });
+
+                                      if (successfulRegister) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text('Loading...')),
+                                        );
+                                        signIn(_usernameController.text,
+                                                _passwordController.text)
+                                            .then((value) {
                                             sendEmailVerification();
-                                            Constants.prefs
-                                                !.setBool("loggedIn", true);
-                                            Navigator.pushReplacementNamed(
-                                                context,
-                                                ValidationPage.routeName);
-                                          });
-                                        }
-                                        else{
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  "E-mail already registered! You can redefine your password in Sign In options."),
-                                              backgroundColor: Colors.red,
+                                          Constants.prefs
+                                              !.setBool("loggedIn", true);
+                                          Navigator.pushReplacementNamed(
+                                              context,
+                                              ValidationPage.routeName);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content:
+                                                  Text('A verification e-mail has been sent to you.'),
+                                              backgroundColor: Colors.green,
                                             ),
                                           );
-                                        }
+                                        });
                                       }
+                                      else{
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                "E-mail already registered! You can redefine your password in Sign In options."),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
+                                    }
                                   },
                                   child: Text("Register"),
                                 ),

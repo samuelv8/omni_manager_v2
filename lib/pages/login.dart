@@ -130,22 +130,37 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                   signIn(_usernameController.text,
                                           _passwordController.text)
-                                      .then((value) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Logged in successfully!'),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
-                                    Database.userUid = value.user?.uid;
-                                    Constants.prefs!.setBool("loggedIn", true);
-                                    Constants.prefs!
-                                        .setString("uid", value.user!.uid);
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
-                                    Navigator.pushReplacementNamed(
-                                        context, HomePage.routeName);
+                                      .then((value) async {
+                                    // checa se email já foi validado
+                                    bool validatedEmail = 
+                                      await Database.checkEmailValidated();
+                                    if(validatedEmail){    
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Logged in successfully!'),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                      Database.userUid = value.user?.uid;
+                                      Constants.prefs!.setBool("loggedIn", true);
+                                      Constants.prefs!
+                                          .setString("uid", value.user!.uid);
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                      Navigator.pushReplacementNamed(
+                                          context, HomePage.routeName);
+                                    }
+                                    else{
+                                      //printa mensagem de não validação de e-mail e impede o login
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Please validate yout e-mail! A new verification e-mail was sent to you.'),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
                                   }).catchError((err) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

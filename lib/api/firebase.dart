@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:omni_manager/api/auth.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -31,6 +32,19 @@ class Database {
       }
       return true;
     });
+  }
+  
+  static Future<bool> checkEmailValidated() async {
+    // flow: vai verificar se email já foi verificado, caso contrário envia email de verificaçao novamente
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user!= null && !user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+    if (user!= null) return user.emailVerified;
+    else {
+      print("Current user not found.");
+      return false;
+    }
   }
 
   static Future<QuerySnapshot> listRatings() {
