@@ -145,9 +145,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                           signIn(_usernameController.text,
                                                   _passwordController.text)
                                               .then((value) {
+                                            sendEmailVerification();
                                             Constants.prefs
                                                 !.setBool("loggedIn", true);
-
                                             Navigator.pushReplacementNamed(
                                                 context,
                                                 ValidationPage.routeName);
@@ -158,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                  "E-mail already refistered! You can redefine your password in Sign In options."),
+                                                  "E-mail already registered! You can redefine your password in Sign In options."),
                                               backgroundColor: Colors.red,
                                             ),
                                           );
