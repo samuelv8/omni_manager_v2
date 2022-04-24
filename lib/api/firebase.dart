@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:omni_manager/api/auth.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -25,21 +26,17 @@ class Database {
     });
   }
   
-  static Future<bool> checkEmailValidated(String email) async {
-    // flow: vai encontrar o doc com email, e retornar o status de validação do email
-    return _users
-        .where("email", isEqualTo: email)
-        .limit(1)
-        .get()
-        .then((snapshot) {
-      if (snapshot.docs.isNotEmpty) {
-        var data = snapshot.docs[0].data();
-        if(data != null){
-          return (data as Map)["isemailvalidated"] ;
-        }
-      }
+  static Future<bool> checkEmailValidated() async {
+    // flow: vai verificar se email já foi verificado, caso contrário envia email de verificaçao novamente
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user!= null && !user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+    if (user!= null) return user.emailVerified;
+    else {
+      print("Current user not found.");
       return false;
-    });
+    }
   }
 
   static Future<QuerySnapshot> listRatings() {

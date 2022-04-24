@@ -106,9 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                                           _passwordController.text)
                                       .then((value) async {
                                     // checa se email já foi validado
-                                    bool validEmail = 
-                                      await Database.checkEmailValidated(_usernameController.text);
-                                    if(validEmail){    
+                                    bool validatedEmail = 
+                                      await Database.checkEmailValidated();
+                                    if(validatedEmail){    
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content:
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content:
-                                              Text('Please validate yout e-mail!'),
+                                              Text('Please validate yout e-mail! A new verification e-mail was sent to you.'),
                                           backgroundColor: Colors.red,
                                         ),
                                       );

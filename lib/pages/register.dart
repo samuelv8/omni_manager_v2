@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
+import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/manager_validation.dart';
 //import 'package:omni_manager/api/queries.dart';
 
@@ -117,7 +118,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                       "email": _usernameController.text,
                                       "password": _passwordController.text,
                                       "name": _nameController.text,
-                                      "isemailvalidated": false,
                                     };
                                     if (formKey.currentState!.validate()) {
                                       bool successfulRegister =
@@ -148,10 +148,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                             .then((value) {
                                           Constants.prefs
                                               !.setBool("loggedIn", true);
-
                                           Navigator.pushReplacementNamed(
                                               context,
                                               ValidationPage.routeName);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content:
+                                                  Text('A verification e-mail has been sent to you.'),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
                                         });
                                       }
                                     }
