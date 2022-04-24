@@ -14,23 +14,46 @@ Future<UserCredential> signIn(String email, String password) async {
   }
 }
 
+Future<void> sendEmailVerification() async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user!= null && !user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+  } on FirebaseAuthException catch (e) {
+    throw e;
+  }
+}
+
 Future<bool> register(Map<String, dynamic> userData) async {
   try {
-    var password = userData['password'];
-    var uid = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: userData["email"], password: password)
-        .then((credential) {
-          
-      return credential.user?.uid;
-
-    });
-    userData.remove("password");
+    var email = userData["email"];
+    bool notRegistered = true;
     users
-        .doc(uid)
-        .set(userData, SetOptions(merge: true))
-        .then((value) => print("User added"));
-    return true;
+        .where("email", isEqualTo: email)
+        .get()
+        .then((snapshot) {if (snapshot.docs.isNotEmpty) notRegistered = false;
+    });
+    if (notRegistered){
+      var uid = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: userData["email"], password: userData['password'])
+          .then((credential) {
+            
+        return credential.user?.uid;
+
+      });
+      userData.remove("password");
+      users
+          .doc(uid)
+          .set(userData, SetOptions(merge: true))
+          .then((value) => print("User added"));
+      return true;
+    }
+    else{
+      print("Attempt to register with an already registered e-mail.");
+      return false;
+    }
   } catch (e) {
     throw Future.error(e);
   }
@@ -97,5 +120,13 @@ Future<bool> updateUserData(Map<String, dynamic> userData) async {
   } catch (e) {
     print(e.toString());
     return false;
+  }
+}
+
+Future<void> sendRecoveryEmail(String userEmail) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
+  } on FirebaseAuthException catch (e) {
+    throw e;
   }
 }

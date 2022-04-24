@@ -23,6 +23,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final _repeatpasswordController = TextEditingController();
 
+  final RegExp reg = new RegExp(r"^[a-z\.1-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com))$");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +73,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter your e-mail';
+                                    }
+                                    if (!reg.hasMatch(value)) {
+                                      return 'Please enter a valid email';
                                     }
                                     return null;
                                   },
@@ -146,6 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         signIn(_usernameController.text,
                                                 _passwordController.text)
                                             .then((value) {
+                                            sendEmailVerification();
                                           Constants.prefs
                                               !.setBool("loggedIn", true);
                                           Navigator.pushReplacementNamed(
@@ -159,6 +165,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                             ),
                                           );
                                         });
+                                      }
+                                      else{
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                "E-mail already registered! You can redefine your password in Sign In options."),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
                                       }
                                     }
                                   },

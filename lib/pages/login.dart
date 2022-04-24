@@ -7,6 +7,7 @@ import 'package:omni_manager/api/firebase.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = "/login";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -18,24 +19,46 @@ class _LoginPageState extends State<LoginPage> {
 
   final _passwordController = TextEditingController();
 
+  final RegExp reg = new RegExp(
+      r"^[a-z\.1-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com))$");
+
   //function to show pop-up window asking for registered email
   createAlertDialog(BuildContext context) {
-    TextEditingController customController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
 
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
               title: Text("Write your registered email"),
-              content: TextField(
-                controller: customController,
+              content: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
               ),
               actions: <Widget>[
                 MaterialButton(
                   elevation: 5.0,
-                  child: Text("Submmit"),
+                  child: Text("Cancel"),
                   onPressed: () {
-                    createAlertDialog(context);
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                MaterialButton(
+                  elevation: 5.0,
+                  child: Text("Submmit"),
+                  onPressed: () async {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Sending email...")));
+                    await sendRecoveryEmail(emailController.text).then((value) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Email sent successfully.")));
+                    }).catchError((error) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Error sending email.")));
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
                   },
                 )
               ]);
@@ -72,6 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your e-mail';
+                                }
+                                if (!reg.hasMatch(value)) {
+                                  return 'Please enter a valid email';
                                 }
                                 return null;
                               },
@@ -165,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                             ElevatedButton(
                               onPressed: () {
                                 createAlertDialog(context);
+                                ScaffoldMessenger.of(context).clearSnackBars();
                               },
                               child: Text("Forgot your password?"),
                             )
