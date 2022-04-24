@@ -120,9 +120,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                       "name": _nameController.text,
                                     };
                                     if (formKey.currentState!.validate()){
-                                      bool notRegistered = 
-                                        await Database.notRegistered(_usernameController.text);
-                                      if(notRegistered){
                                         bool successfulRegister =
                                             await register(userData)
                                                 .then((value) => value)
@@ -156,18 +153,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 ValidationPage.routeName);
                                           });
                                         }
-                                      }
-                                      else{
-                                        ScaffoldMessenger.of(context)
+                                        else{
+                                          ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                  "E-mail already refistered!"),
+                                                  "E-mail already refistered! You can redefine your password in Sign In options."),
                                               backgroundColor: Colors.red,
                                             ),
                                           );
+                                        }
                                       }
-                                    }
                                   },
                                   child: Text("Register"),
                                 ),
