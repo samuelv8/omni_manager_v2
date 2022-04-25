@@ -139,7 +139,7 @@ class Database {
             await Future.wait(
                 [addForm(user.id, false), addForm(user.id, true)]);
             print(user);
-            final email = await element.get(['email']).get();
+            final email = await element.get(FieldPath(['email'])).get();
             await Future.wait([sendEmail(email)]);
           })
         });
