@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:omni_manager/api/auth.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -33,14 +36,15 @@ class Database {
       return true;
     });
   }
-  
+
   static Future<bool> checkEmailValidated() async {
     // flow: vai verificar se email já foi verificado, caso contrário envia email de verificaçao novamente
     User? user = FirebaseAuth.instance.currentUser;
-    if (user!= null && !user.emailVerified) {
+    if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
     }
-    if (user!= null) return user.emailVerified;
+    if (user != null)
+      return user.emailVerified;
     else {
       print("Current user not found.");
       return false;
@@ -136,6 +140,8 @@ class Database {
                 await element.get(FieldPath(['ref'])).get();
             await Future.wait(
                 [addForm(user.id, false), addForm(user.id, true)]);
+            final data = user.get('email');
+            await Future.wait([sendEmail(data)]);
           })
         });
   }
@@ -172,4 +178,37 @@ class Database {
   static Future<bool> emailExistsInDatabase(String userEmail) {
     return getUserFromEmail(userEmail).then((value) => value.docs.isNotEmpty);
   }
+}
+
+Future sendEmail(String userEmail) async {
+  var body = '''
+
+    Olá!
+
+    Você recebeu seu formulário semanal na plataforma OmniManager.
+
+    Não vai esquecer de preencher, ein?
+
+    Att.,
+
+    Equipe OmniManager
+
+    ''';
+  var subject = "Atenção! Formulário novo de acompanhamento OmniManager.";
+
+  final uri = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+
+  final response = await http.post(uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'service_id': 'service_enf8b7n',
+        'template_id': 'template_jty8x3m',
+        'user_id': 'hSJYx0YlCi_pRKRlb',
+        'template_params': {
+          'user_message': body,
+          'user_email': userEmail,
+          'user_subject': subject
+        }
+      }));
+  return response;
 }
