@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 MaterialButton(
                   elevation: 5.0,
-                  child: Text("Submmit"),
+                  child: Text("Submit"),
                   onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Sending email...")));
