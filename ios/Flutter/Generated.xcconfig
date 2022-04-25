@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\Users\vjoao\OneDrive\Documents\flutter\flutter
-FLUTTER_APPLICATION_PATH=C:\Users\vjoao\OneDrive\Documents\3º Comp\CES29\omni_manager_v2
+FLUTTER_ROOT=C:\Users\alexa\Documents\flutter
+FLUTTER_APPLICATION_PATH=C:\Users\alexa\Desktop\omni_manager_v2
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_TARGET=lib\main.dart
 FLUTTER_BUILD_DIR=build

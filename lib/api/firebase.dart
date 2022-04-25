@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:omni_manager/api/auth.dart';
-import 'package:sendgrid_mailer/sendgrid_mailer.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final CollectionReference _users = _firestore.collection('Users');
@@ -138,9 +140,8 @@ class Database {
                 await element.get(FieldPath(['ref'])).get();
             await Future.wait(
                 [addForm(user.id, false), addForm(user.id, true)]);
-            print(user);
-            final email = await element.get(FieldPath(['email'])).get();
-            await Future.wait([sendEmail(email)]);
+            final data = user.get('email');
+            await Future.wait([sendEmail(data)]);
           })
         });
   }
@@ -193,17 +194,21 @@ Future sendEmail(String userEmail) async {
     Equipe OmniManager
 
     ''';
-  final mailer = Mailer(
-      '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');
-  final toAddress = Address(userEmail);
-  final fromAddress = Address('Alexandre.bernat@ga.ita.br');
-  final content = Content('text/plain', body);
-  final subject = 'Atenção para formulário de acompanhamento recebido!';
-  final personalization = Personalization([toAddress]);
+  var subject = "Atenção! Formulário novo de acompanhamento OmniManager.";
 
-  final email =
-      Email([personalization], fromAddress, subject, content: [content]);
-  return mailer.send(email).then((result) {
-    print(result);
-  });
+  final uri = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+
+  final response = await http.post(uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'service_id': 'service_enf8b7n',
+        'template_id': 'template_jty8x3m',
+        'user_id': 'hSJYx0YlCi_pRKRlb',
+        'template_params': {
+          'user_message': body,
+          'user_email': userEmail,
+          'user_subject': subject
+        }
+      }));
+  return response;
 }
