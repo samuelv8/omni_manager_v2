@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   final RegExp reg = new RegExp(
-      r"^[a-z\.1-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com))$");
+      r"^[a-z\.0-9]+@((ga\.ita\.br)|(yahoo\.com\.br)|(ita\.br)|(gp\.ita\.br)|(gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com))$");
 
   //function to show pop-up window asking for registered email
   createAlertDialog(BuildContext context) {
