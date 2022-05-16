@@ -40,6 +40,13 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text('Password reset canceled.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   },
                 ),
                 MaterialButton(
@@ -47,15 +54,26 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Submit"),
                   onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Sending email...")));
+                        const SnackBar(
+                          content: Text("Sending password reset email... Please wait.")
+                        )
+                    );
                     await sendRecoveryEmail(emailController.text).then((value) {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Email sent successfully.")));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Password reset email sent successfully!"),
+                          backgroundColor: Colors.green,
+                        )
+                      );
                     }).catchError((error) {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Error sending email.")));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Error sending password reset email."),
+                          backgroundColor: Colors.red,
+                        )
+                      );
                     });
                     Navigator.of(context, rootNavigator: true).pop();
                   },
