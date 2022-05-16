@@ -173,11 +173,12 @@ class _ValidationPageState extends State<ValidationPage> {
                                       });
 
                                       if (successfulUpdate) {
+                                        sendEmailVerification();
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                              duration:  const Duration(seconds: 20),
-                                              content: Text('Successful register! Please verify your e-mail to sing in, a verification e-mail has been sent to you.'),
+                                              duration:  const Duration(seconds: 30),
+                                              content: Text('Successful register! A verification e-mail has been sent to you.'),
                                               backgroundColor: Colors.green,
                                           ),
                                         );

@@ -157,7 +157,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                         signIn(_usernameController.text,
                                                 _passwordController.text)
                                             .then((value) {
-                                            sendEmailVerification();
                                           Constants.prefs
                                               !.setBool("loggedIn", true);
                                           Navigator.pushReplacementNamed(
@@ -165,8 +164,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                               ValidationPage.routeName);
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             const SnackBar(
+                                              duration:  const Duration(seconds: 20),
                                               content:
-                                                  Text('A verification e-mail has been sent to you.'),
+                                                  Text('Your data has been saved! Please complete the registration.'),
                                               backgroundColor: Colors.green,
                                             ),
                                           );
