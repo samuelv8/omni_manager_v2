@@ -10,8 +10,10 @@ void showSnackBar(
       backgroundColor: Colors.red,
     ));
   } else {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(text)
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
+}
+
+void hideSnackBar({required BuildContext context}) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
