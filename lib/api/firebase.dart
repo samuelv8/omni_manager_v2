@@ -132,6 +132,11 @@ class Database {
   }
 
 
+  ///Gets filled forms with path [empID], where 'is_manager' is equal to 
+  ///[isManager], and where release time is between [init] and [end]. 
+  ///Parameters [init] and [end] are optional, if they are not provided,
+  ///the default value will be respectively DateTime.fromMillisecondsSinceEpoch(0) 
+  ///and DateTime.now()
   static Future<QuerySnapshot> getEmployeeFormsFromInitToEnd(
       String empID, bool isManager, [DateTime? init, DateTime? end]) {
     init = init ?? DateTime.fromMillisecondsSinceEpoch(0);
