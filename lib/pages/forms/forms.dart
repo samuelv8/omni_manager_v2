@@ -3,6 +3,7 @@ import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/forms/widgets/formulary.dart';
 import 'package:omni_manager/pages/forms/widgets/list_panel.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 import '../dashboard/widgets/custom_text_title.dart';
 
 class FormsPage extends StatefulWidget {
@@ -43,29 +44,20 @@ class _FormsPageState extends State<FormsPage> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Loading...')),
-                            );
+                            showSnackBar(text: 'Loading...', context: context)
                             Database.releaseForms().then((value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Forms released successfully!'),
-                                  backgroundColor: Colors.green,
-                                ),
+                              showSnackBar(text: 'Forms released successfully!',
+                                context: context,
+                                backgroundColor: Colors.green
                               );
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
+                              hideSnackBar(context: context);
                               setState(() {});
                             }).catchError((err) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text("Failed to release. Error: $err"),
-                                  backgroundColor: Colors.red,
-                                ),
+                              showSnackBar(text: "Failed to release. Error: ${err.message}",
+                                context: context,
+                                backgroundColor: Colors.red
                               );
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
+                              hideSnackBar(context: context);
                               setState(() {});
                             });
                           },

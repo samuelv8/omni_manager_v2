@@ -4,6 +4,7 @@ import 'package:omni_manager/pages/register.dart';
 import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = "/login";
@@ -19,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final _passwordController = TextEditingController();
 
-  final RegExp reg = new RegExp(r"^[a-z\.0-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)|(ga\.ita\.br)|(gp\.ita\.br)|(ita\.br)|(yahoo\.com\.br))$");
+  final RegExp reg = new RegExp(
+      r"^[a-z\.0-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)|(ga\.ita\.br)|(gp\.ita\.br)|(ita\.br)|(yahoo\.com\.br))$");
 
   //function to show pop-up window asking for registered email
   createAlertDialog(BuildContext context) {
@@ -46,16 +48,21 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 5.0,
                   child: Text("Submit"),
                   onPressed: () async {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Sending email...")));
+                    showSnackBar(
+                        text: "Sending email...",
+                        context: context);
+
                     await sendRecoveryEmail(emailController.text).then((value) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Email sent successfully.")));
+                      hideSnackBar(context: context);
+                      showSnackBar(
+                          text: "Email sent successfully.",
+                          context: context);
                     }).catchError((error) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Error sending email.")));
+                      hideSnackBar(context: context);
+                      showSnackBar(
+                          text: "Error sending email: ${error.message}",
+                          context: context,
+                          backgroundColor: Colors.red);
                     });
                     Navigator.of(context, rootNavigator: true).pop();
                   },
@@ -124,52 +131,50 @@ class _LoginPageState extends State<LoginPage> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Loading...')),
-                                  );
+                                  showSnackBar(
+                                      text: 'Loading...', context: context);
+
                                   signIn(_usernameController.text,
                                           _passwordController.text)
                                       .then((value) async {
                                     // checa se email já foi validado
-                                    bool validatedEmail = 
-                                      await Database.checkEmailValidated();
-                                    if(validatedEmail){    
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content:
-                                              Text('Logged in successfully!'),
-                                          backgroundColor: Colors.green,
-                                        ),
-                                      );
+                                    bool validatedEmail =
+                                        await Database.checkEmailValidated()
+                                            .then((value) => value)
+                                            .catchError((error) {
+                                      showSnackBar(
+                                          text: "Error: ${error.message}",
+                                          context: context,
+                                          backgroundColor: Colors.red);
+                                    });
+                                    if (validatedEmail) {
+                                      showSnackBar(
+                                          text: 'Logged in successfully!',
+                                          context: context,
+                                          backgroundColor: Colors.green);
+
                                       Database.userUid = value.user?.uid;
-                                      Constants.prefs!.setBool("loggedIn", true);
+                                      Constants.prefs!
+                                          .setBool("loggedIn", true);
                                       Constants.prefs!
                                           .setString("uid", value.user!.uid);
-                                      ScaffoldMessenger.of(context)
-                                          .hideCurrentSnackBar();
+                                      hideSnackBar(context: context);
                                       Navigator.pushReplacementNamed(
                                           context, HomePage.routeName);
-                                    }
-                                    else{
+                                    } else {
                                       //printa mensagem de não validação de e-mail e impede o login
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content:
-                                              Text('Please validate yout e-mail! A new verification e-mail was sent to you.'),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
+                                      showSnackBar(
+                                          text:
+                                              'Please validate yout e-mail! A new verification e-mail was sent to you.',
+                                          context: context);
                                     }
                                   }).catchError((err) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            "Failed to authenticate: ${err.message}"),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
+                                    showSnackBar(
+                                        text:
+                                            "Failed to authenticate: ${err.message}",
+                                        context: context,
+                                        backgroundColor: Colors.red);
+                                    hideSnackBar(context: context);
                                   });
                                 }
                               },

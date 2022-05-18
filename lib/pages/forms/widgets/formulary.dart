@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omni_manager/api/firebase.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 
 class Formulary extends StatefulWidget {
   const Formulary({Key? key, required this.isManager, this.employee})
@@ -41,7 +42,8 @@ class _FormularyState extends State<Formulary> {
   @override
   void initState() {
     super.initState();
-    Database.getUnfilledForm(isManager: isManager, employee: employee).then((snapshot) {
+    Database.getUnfilledForm(isManager: isManager, employee: employee)
+        .then((snapshot) {
       setState(() {
         haveForms = snapshot.docs.isNotEmpty;
         loaded = true;
@@ -187,16 +189,15 @@ class _FormularyState extends State<Formulary> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         int load = optionsQuestion1.indexOf(valueQuestion1);
-                        int completion = optionsQuestion2.indexOf(valueQuestion2);
+                        int completion =
+                            optionsQuestion2.indexOf(valueQuestion2);
                         double quality =
                             optionsQuestion3.indexOf(valueQuestion3) /
                                 (optionsQuestion3.length - 1);
                         double proactivity =
                             optionsQuestion4.indexOf(valueQuestion4) /
                                 (optionsQuestion4.length - 1);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Loading...')),
-                        );
+                        showSnackBar(text: 'Loading...', context: context);
                         Database.fillForms(
                                 isManager: isManager,
                                 employee: employee,
@@ -205,24 +206,20 @@ class _FormularyState extends State<Formulary> {
                                 quality: quality,
                                 proactivity: proactivity)
                             .then((value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Forms submitted successfully!'),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          showSnackBar(
+                              text: 'Forms submitted successfully!',
+                              context: context,
+                              backgroundColor: Colors.green);
+                          hideSnackBar(context: context);
                           setState(() {
                             haveForms = false;
                           });
                         }).catchError((err) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Failed to submit. Error: $err"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          showSnackBar(
+                              text: "Failed to submit. Error: ${err.message}",
+                              context: context,
+                              backgroundColor: Colors.red);
+                          hideSnackBar(context: context);
                           setState(() {});
                         });
                       }

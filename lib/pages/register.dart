@@ -4,6 +4,7 @@ import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/manager_validation.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 //import 'package:omni_manager/api/queries.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -23,7 +24,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final _repeatpasswordController = TextEditingController();
 
-  final RegExp reg = new RegExp(r"^[a-z\.0-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)|(ga\.ita\.br)|(gp\.ita\.br)|(ita\.br)|(yahoo\.com\.br))$");
+  final RegExp reg = new RegExp(
+      r"^[a-z\.0-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)|(ga\.ita\.br)|(gp\.ita\.br)|(ita\.br)|(yahoo\.com\.br))$");
 
   @override
   Widget build(BuildContext context) {
@@ -135,52 +137,40 @@ class _RegisterPageState extends State<RegisterPage> {
                                           await register(userData)
                                               .then((value) => value)
                                               .catchError((err) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                "Failed to authenticate: ${err.toString()}"),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar();
+                                        showSnackBar(
+                                            text:
+                                                "Failed to authenticate: ${err.toString()}",
+                                            context: context,
+                                            backgroundColor: Colors.red);
+                                        hideSnackBar(context: context);
                                         return false;
                                       });
 
                                       if (successfulRegister) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text('Loading...')),
-                                        );
+                                        showSnackBar(
+                                            text: 'Loading...',
+                                            context: context);
                                         signIn(_usernameController.text,
                                                 _passwordController.text)
                                             .then((value) {
-                                            sendEmailVerification();
-                                          Constants.prefs
-                                              !.setBool("loggedIn", true);
+                                          sendEmailVerification();
+                                          Constants.prefs!
+                                              .setBool("loggedIn", true);
                                           Navigator.pushReplacementNamed(
                                               context,
                                               ValidationPage.routeName);
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(
-                                              content:
-                                                  Text('A verification e-mail has been sent to you.'),
-                                              backgroundColor: Colors.green,
-                                            ),
-                                          );
+                                          showSnackBar(
+                                              text:
+                                                  'A verification e-mail has been sent to you.',
+                                              context: context,
+                                              backgroundColor: Colors.green);
                                         });
-                                      }
-                                      else{
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                "E-mail already registered! You can redefine your password in Sign In options."),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
+                                      } else {
+                                        showSnackBar(
+                                            text:
+                                                "E-mail already registered! You can redefine your password in Sign In options.",
+                                            context: context,
+                                            backgroundColor: Colors.red);
                                       }
                                     }
                                   },
