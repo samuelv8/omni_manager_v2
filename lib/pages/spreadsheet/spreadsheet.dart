@@ -115,7 +115,7 @@ class _SpreadsheetState extends State<SpreadsheetPage> {
                 child: Center(
                   child: loaded
                       ? DataTableWidget(listOfColumns: _empData ?? _sampleData)
-                      : waitForWidget(context: context),
+                      : Center(child: CircularProgressIndicator()),
                 ),
               ),
             ],

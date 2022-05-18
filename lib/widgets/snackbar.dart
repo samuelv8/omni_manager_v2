@@ -13,8 +13,3 @@ void showSnackBar(
 void hideSnackBar({required BuildContext context}) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
 }
-
-Widget waitForWidget({required BuildContext context}) {
-  showSnackBar(text: 'Loading...', context: context);
-  return Center(child: CircularProgressIndicator());
-}

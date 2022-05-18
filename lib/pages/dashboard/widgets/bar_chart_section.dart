@@ -115,7 +115,7 @@ class _StatefulWrapperState extends State<BarChartDash> {
                     height: 250,
                     child: loaded
                         ? new SimpleBarChart.withUnformattedData(_empDataCompl)
-                        : waitForWidget(context: context))
+                        : Center(child: CircularProgressIndicator()))
               ],
             ),
           ),
@@ -139,7 +139,7 @@ class _StatefulWrapperState extends State<BarChartDash> {
                     child: loaded
                         ? new PieOutsideLabelChart.withUnformattedData(
                             _empDataWL)
-                        : waitForWidget(context: context)),
+                        : Center(child: CircularProgressIndicator())),
               ],
             ),
           ),
