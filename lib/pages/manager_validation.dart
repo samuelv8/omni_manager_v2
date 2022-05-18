@@ -191,6 +191,7 @@ class _ValidationPageState extends State<ValidationPage> {
                                                 'Successful register! Please verify your e-mail to sing in, a verification e-mail has been sent to you.',
                                             context: context,
                                             backgroundColor: Colors.green);
+                                        hideSnackBar(context: context);
                                         Navigator.pushReplacementNamed(
                                             context, LoginPage.routeName);
                                       }

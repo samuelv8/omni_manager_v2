@@ -207,6 +207,7 @@ class _FormularyState extends State<Formulary> {
                                 quality: quality,
                                 proactivity: proactivity)
                             .then((value) {
+                          hideSnackBar(context: context);
                           showSnackBar(
                               text: 'Forms submitted successfully!',
                               context: context,
@@ -216,6 +217,7 @@ class _FormularyState extends State<Formulary> {
                             haveForms = false;
                           });
                         }).catchError((err) {
+                          hideSnackBar(context: context);
                           showSnackBar(
                               text: "Failed to submit. Error: ${err.message}",
                               context: context,

@@ -48,15 +48,12 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 5.0,
                   child: Text("Submit"),
                   onPressed: () async {
-                    showSnackBar(
-                        text: "Sending email...",
-                        context: context);
+                    showSnackBar(text: "Sending email...", context: context);
 
                     await sendRecoveryEmail(emailController.text).then((value) {
                       hideSnackBar(context: context);
                       showSnackBar(
-                          text: "Email sent successfully.",
-                          context: context);
+                          text: "Email sent successfully.", context: context);
                     }).catchError((error) {
                       hideSnackBar(context: context);
                       showSnackBar(
@@ -142,12 +139,14 @@ class _LoginPageState extends State<LoginPage> {
                                         await Database.checkEmailValidated()
                                             .then((value) => value)
                                             .catchError((error) {
+                                      hideSnackBar(context: context);
                                       showSnackBar(
                                           text: "Error: ${error.message}",
                                           context: context,
                                           backgroundColor: Colors.red);
                                     });
                                     if (validatedEmail) {
+                                      hideSnackBar(context: context);
                                       showSnackBar(
                                           text: 'Logged in successfully!',
                                           context: context,
@@ -163,12 +162,14 @@ class _LoginPageState extends State<LoginPage> {
                                           context, HomePage.routeName);
                                     } else {
                                       //printa mensagem de não validação de e-mail e impede o login
+                                      hideSnackBar(context: context);
                                       showSnackBar(
                                           text:
                                               'Please validate yout e-mail! A new verification e-mail was sent to you.',
                                           context: context);
                                     }
                                   }).catchError((err) {
+                                    hideSnackBar(context: context);
                                     showSnackBar(
                                         text:
                                             "Failed to authenticate: ${err.message}",

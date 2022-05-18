@@ -58,6 +58,7 @@ class _ListPanelState extends State<ListPanel> {
         child: Center(child: CircularProgressIndicator()),
       );
     }
+    hideSnackBar(context: context);
     return Container(
       width: MediaQuery.of(context).size.width,
       child: ExpansionPanelList(

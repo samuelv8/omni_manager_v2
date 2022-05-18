@@ -159,6 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           Navigator.pushReplacementNamed(
                                               context,
                                               ValidationPage.routeName);
+                                          hideSnackBar(context: context);
                                           showSnackBar(
                                               text:
                                                   'A verification e-mail has been sent to you.',

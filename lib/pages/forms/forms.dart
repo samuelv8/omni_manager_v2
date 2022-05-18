@@ -46,6 +46,7 @@ class _FormsPageState extends State<FormsPage> {
                           onPressed: () {
                             showSnackBar(text: 'Loading...', context: context);
                             Database.releaseForms().then((value) {
+                              hideSnackBar(context: context);
                               showSnackBar(
                                   text: 'Forms released successfully!',
                                   context: context,
@@ -53,6 +54,7 @@ class _FormsPageState extends State<FormsPage> {
                               hideSnackBar(context: context);
                               setState(() {});
                             }).catchError((err) {
+                              hideSnackBar(context: context);
                               showSnackBar(
                                   text:
                                       "Failed to release. Error: ${err.message}",
