@@ -5,6 +5,7 @@ import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/dashboard/widgets/bar_chart.dart';
 import 'package:omni_manager/pages/dashboard/widgets/custom_text_content.dart';
 import 'package:omni_manager/pages/dashboard/widgets/pie_chart.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 
 class BarChartDash extends StatefulWidget {
   final bool isManager;
@@ -114,7 +115,7 @@ class _StatefulWrapperState extends State<BarChartDash> {
                     height: 250,
                     child: loaded
                         ? new SimpleBarChart.withUnformattedData(_empDataCompl)
-                        : Center(child: CircularProgressIndicator()))
+                        : waitForWidget(context: context))
               ],
             ),
           ),
@@ -138,7 +139,7 @@ class _StatefulWrapperState extends State<BarChartDash> {
                     child: loaded
                         ? new PieOutsideLabelChart.withUnformattedData(
                             _empDataWL)
-                        : Center(child: CircularProgressIndicator())),
+                        : waitForWidget(context: context)),
               ],
             ),
           ),

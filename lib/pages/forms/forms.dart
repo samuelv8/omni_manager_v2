@@ -44,19 +44,20 @@ class _FormsPageState extends State<FormsPage> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            showSnackBar(text: 'Loading...', context: context)
+                            showSnackBar(text: 'Loading...', context: context);
                             Database.releaseForms().then((value) {
-                              showSnackBar(text: 'Forms released successfully!',
-                                context: context,
-                                backgroundColor: Colors.green
-                              );
+                              showSnackBar(
+                                  text: 'Forms released successfully!',
+                                  context: context,
+                                  backgroundColor: Colors.green);
                               hideSnackBar(context: context);
                               setState(() {});
                             }).catchError((err) {
-                              showSnackBar(text: "Failed to release. Error: ${err.message}",
-                                context: context,
-                                backgroundColor: Colors.red
-                              );
+                              showSnackBar(
+                                  text:
+                                      "Failed to release. Error: ${err.message}",
+                                  context: context,
+                                  backgroundColor: Colors.red);
                               hideSnackBar(context: context);
                               setState(() {});
                             });

@@ -6,6 +6,7 @@ import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/pages/settings/settings.dart';
 import 'package:omni_manager/pages/spreadsheet/spreadsheet.dart';
 import 'package:omni_manager/utils/shared_prefs.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home";
@@ -38,12 +39,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (!loaded) {
+      showSnackBar(text: 'Loading...', context: context);
       return Scaffold(
           appBar: AppBar(
             title: Text("Omni Manager"),
           ),
           body: Center(child: CircularProgressIndicator()));
     }
+    showSnackBar(text: 'Loaded!', context: context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Omni Manager"),

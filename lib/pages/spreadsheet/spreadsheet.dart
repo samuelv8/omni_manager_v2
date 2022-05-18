@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:omni_manager/pages/dashboard/widgets/custom_text_title.dart';
 import 'package:omni_manager/pages/spreadsheet/spreadsheet_table.dart';
 import 'package:omni_manager/api/firebase.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 
 class SpreadsheetPage extends StatefulWidget {
   const SpreadsheetPage({Key? key}) : super(key: key);
@@ -114,7 +115,7 @@ class _SpreadsheetState extends State<SpreadsheetPage> {
                 child: Center(
                   child: loaded
                       ? DataTableWidget(listOfColumns: _empData ?? _sampleData)
-                      : CircularProgressIndicator(),
+                      : waitForWidget(context: context),
                 ),
               ),
             ],

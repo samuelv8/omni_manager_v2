@@ -54,6 +54,7 @@ class _FormularyState extends State<Formulary> {
   @override
   Widget build(BuildContext context) {
     if (!loaded) {
+      showSnackBar(text: 'Loading...', context: context);
       return Center(child: CircularProgressIndicator());
     }
     if (haveForms) {
