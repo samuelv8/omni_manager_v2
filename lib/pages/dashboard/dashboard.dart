@@ -8,9 +8,8 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child:Container(
-      width: MediaQuery.of(context).size.width * 0.95,
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
       alignment: Alignment.topLeft,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -27,9 +26,7 @@ class DashboardPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child:SingleChildScrollView(
-              scrollDirection: Axis.horizontal, 
-              child:Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Center(child: OverviewCardsLargeScreen()),
@@ -61,11 +58,9 @@ class DashboardPage extends StatelessWidget {
                 )),
               ],
             ),
-            ),
           ),
         ],
       ),
-    )
     );
   }
 }
