@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:omni_manager/pages/home.dart';
 import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/utils/shared_prefs.dart';
 import 'package:omni_manager/api/auth.dart';
-import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/manager_validation.dart';
 import 'package:omni_manager/widgets/snackbar.dart';
 //import 'package:omni_manager/api/queries.dart';
