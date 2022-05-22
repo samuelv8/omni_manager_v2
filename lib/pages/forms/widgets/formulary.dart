@@ -36,12 +36,24 @@ class _FormularyState extends State<Formulary> {
 
   String textQuestion4 = "How proactive was the employee?";
   String valueQuestion4 = 'Satisfatory';
-  var optionsQuestion4 = ['nothing', 'Litter', 'Satisfatoy', 'very much'];
+  var optionsQuestion4 = ['Nothing', 'Litter', 'Satisfatory', 'Very much'];
+
+  String textQuestion5 =
+      "In general, what were the size of the tasks assigned?";
+  String valueQuestion5 = 'Medium';
+  var optionsQuestion5 = [
+    'very small',
+    'Small',
+    'Medium',
+    'Large',
+    'very large'
+  ];
 
   @override
   void initState() {
     super.initState();
-    Database.getUnfilledForm(isManager: isManager, employee: employee).then((snapshot) {
+    Database.getUnfilledForm(isManager: isManager, employee: employee)
+        .then((snapshot) {
       setState(() {
         haveForms = snapshot.docs.isNotEmpty;
         loaded = true;
@@ -71,7 +83,13 @@ class _FormularyState extends State<Formulary> {
                     textQuestion1,
                   ),
                   Container(
-                    width: 120,
+                    width: 320,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a number bigger than zero',
+                      ),
+                    ), /*
                     child: DropdownButtonFormField<String>(
                       value: valueQuestion1,
                       icon: const Icon(Icons.arrow_downward),
@@ -89,7 +107,7 @@ class _FormularyState extends State<Formulary> {
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                     height: 30,
@@ -98,8 +116,14 @@ class _FormularyState extends State<Formulary> {
                     textQuestion2,
                   ),
                   Container(
-                    width: 120,
-                    child: DropdownButtonFormField<String>(
+                    width: 320,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a number bigger than zero',
+                      ),
+                    ),
+                    /*DropdownButtonFormField<String>(
                       value: valueQuestion2,
                       icon: const Icon(Icons.arrow_downward),
                       iconSize: 24,
@@ -124,7 +148,7 @@ class _FormularyState extends State<Formulary> {
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                     height: 30,
@@ -183,11 +207,39 @@ class _FormularyState extends State<Formulary> {
                   SizedBox(
                     height: 20,
                   ),
+                  /*Text(
+                    textQuestion5,
+                  ),
+                  Container(
+                    width: 120,
+                    child: DropdownButtonFormField<String>(
+                      value: valueQuestion5,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          valueQuestion5 = newValue!;
+                        });
+                      },
+                      items: optionsQuestion5
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),*/
                   ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         int load = optionsQuestion1.indexOf(valueQuestion1);
-                        int completion = optionsQuestion2.indexOf(valueQuestion2);
+                        int completion =
+                            optionsQuestion2.indexOf(valueQuestion2);
                         double quality =
                             optionsQuestion3.indexOf(valueQuestion3) /
                                 (optionsQuestion3.length - 1);
