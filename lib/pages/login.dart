@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final RegExp reg = new RegExp(r"^[a-z\.0-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)|(ga\.ita\.br)|(gp\.ita\.br)|(ita\.br)|(yahoo\.com\.br))$");
 
+
   //function to show pop-up window asking for registered email
   createAlertDialog(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -40,6 +41,13 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text('Password reset canceled.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   },
                 ),
                 MaterialButton(
@@ -47,15 +55,26 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Submit"),
                   onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Sending email...")));
+                        const SnackBar(
+                          content: Text("Sending password reset email... Please wait.")
+                        )
+                    );
                     await sendRecoveryEmail(emailController.text).then((value) {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Email sent successfully.")));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Password reset email sent successfully!"),
+                          backgroundColor: Colors.green,
+                        )
+                      );
                     }).catchError((error) {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Error sending email.")));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Error sending password reset email."),
+                          backgroundColor: Colors.red,
+                        )
+                      );
                     });
                     Navigator.of(context, rootNavigator: true).pop();
                   },
@@ -66,6 +85,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Login Page"),
@@ -75,13 +96,13 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.fromLTRB(_width/2 - 250.0, 0.0, _width/2 - 250.0, 0.0),
                 child: SingleChildScrollView(
                   child: Form(
                     key: formKey,
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 30.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -176,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text("Sign In"),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 12,
                             ),
                             ElevatedButton(
                                 onPressed: () {
@@ -185,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                                 child: Text("Register")),
                             SizedBox(
-                              height: 10,
+                              height: 12,
                             ),
                             ElevatedButton(
                               onPressed: () {

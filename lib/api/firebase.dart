@@ -131,6 +131,28 @@ class Database {
         .get();
   }
 
+
+  ///Gets filled forms with path [empID], where 'is_manager' is equal to 
+  ///[isManager], and where release time is between [init] and [end]. 
+  ///Parameters [init] and [end] are optional, if they are not provided,
+  ///the default value will be respectively DateTime.fromMillisecondsSinceEpoch(0) 
+  ///and DateTime.now()
+  static Future<QuerySnapshot> getEmployeeFormsFromInitToEnd(
+      String empID, bool isManager, [DateTime? init, DateTime? end]) {
+    init = init ?? DateTime.fromMillisecondsSinceEpoch(0);
+    end  = end  ?? DateTime.now();
+    return _metrics
+        .doc(empID)
+        .collection("Formularies")
+        .where('is_filled', isEqualTo: true)
+        .where('is_manager', isEqualTo: isManager)
+        .where('release_date',
+            isGreaterThanOrEqualTo: Timestamp.fromDate(init),
+            isLessThanOrEqualTo: Timestamp.fromDate(end)
+            )
+        .get();
+  }
+
   static Future<void> releaseForms() {
     final CollectionReference employees =
         _users.doc(userUid).collection('Employees');

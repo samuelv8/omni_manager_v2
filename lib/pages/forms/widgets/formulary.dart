@@ -83,7 +83,13 @@ class _FormularyState extends State<Formulary> {
                     textQuestion1,
                   ),
                   Container(
-                    width: 120,
+                    width: 320,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a number bigger than zero',
+                      ),
+                    ), /*
                     child: DropdownButtonFormField<String>(
                       value: valueQuestion1,
                       icon: const Icon(Icons.arrow_downward),
@@ -101,7 +107,7 @@ class _FormularyState extends State<Formulary> {
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                     height: 30,
@@ -110,8 +116,14 @@ class _FormularyState extends State<Formulary> {
                     textQuestion2,
                   ),
                   Container(
-                    width: 120,
-                    child: DropdownButtonFormField<String>(
+                    width: 320,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a number bigger than zero',
+                      ),
+                    ),
+                    /*DropdownButtonFormField<String>(
                       value: valueQuestion2,
                       icon: const Icon(Icons.arrow_downward),
                       iconSize: 24,
@@ -136,7 +148,7 @@ class _FormularyState extends State<Formulary> {
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                     height: 30,

@@ -25,6 +25,9 @@ class _ValidationPageState extends State<ValidationPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double _width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Company and manager validation"),
@@ -34,7 +37,7 @@ class _ValidationPageState extends State<ValidationPage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.fromLTRB(_width/2 - 250.0, 0.0, _width/2 - 250.0, 0.0),
                 child: SingleChildScrollView(
                   child: Form(
                     key: formKey,
@@ -173,11 +176,12 @@ class _ValidationPageState extends State<ValidationPage> {
                                       });
 
                                       if (successfulUpdate) {
+                                        sendEmailVerification();
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                              duration:  const Duration(seconds: 20),
-                                              content: Text('Successful register! Please verify your e-mail to sing in, a verification e-mail has been sent to you.'),
+                                              duration:  const Duration(seconds: 30),
+                                              content: Text('Successful register! A verification e-mail has been sent to you.'),
                                               backgroundColor: Colors.green,
                                           ),
                                         );
