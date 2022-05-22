@@ -28,6 +28,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double _width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Staff Register Page"),
@@ -37,13 +40,13 @@ class _RegisterPageState extends State<RegisterPage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.fromLTRB(_width/2 - 250.0, 0.0, _width/2 - 250.0, 0.0),
                 child: SingleChildScrollView(
                   child: Form(
                     key: formKey,
                     child: Card(
                       child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 30.0),
                           child: FocusTraversalGroup(
                             policy: WidgetOrderTraversalPolicy(),
                             descendantsAreFocusable: true,
@@ -177,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: Text("Register"),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 12,
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
