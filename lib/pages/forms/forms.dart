@@ -109,7 +109,7 @@ class _FormsPageState extends State<FormsPage> {
                   ),
                   Formulary(
                     isManager: isManager,
-                    employee: getUserUid(),
+                    uid: getUserUid(),
                   ),
                 ]),
           ),
