@@ -36,17 +36,17 @@ class _FormularyState extends State<Formulary> {
 
   String textQuestion4 = "How proactive was the employee?";
   String valueQuestion4 = 'Satisfatory';
-  var optionsQuestion4 = ['nothing', 'Litter', 'Satisfatory', 'very much'];
+  var optionsQuestion4 = ['Nothing', 'Little', 'Satisfatory', 'Very much'];
 
   String textQuestion5 =
       "In general, how big were the tasks the employee was assigned to?";
   String valueQuestion5 = 'Medium';
   var optionsQuestion5 = [
-    'Very Small',
+    'Very small',
     'Small',
     'Medium',
     'Large',
-    'Very Large'
+    'Very large'
   ];
 
   @override
