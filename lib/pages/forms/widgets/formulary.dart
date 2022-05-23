@@ -36,17 +36,17 @@ class _FormularyState extends State<Formulary> {
 
   String textQuestion4 = "How proactive was the employee?";
   String valueQuestion4 = 'Satisfatory';
-  var optionsQuestion4 = ['Nothing', 'Litter', 'Satisfatory', 'Very much'];
+  var optionsQuestion4 = ['Nothing', 'Little', 'Satisfatory', 'Very much'];
 
   String textQuestion5 =
-      "In general, what were the size of the tasks assigned?";
+      "In general, how big were the tasks the employee was assigned to?";
   String valueQuestion5 = 'Medium';
   var optionsQuestion5 = [
-    'very small',
+    'Very small',
     'Small',
     'Medium',
     'Large',
-    'very large'
+    'Very large'
   ];
 
   @override
@@ -207,7 +207,7 @@ class _FormularyState extends State<Formulary> {
                   SizedBox(
                     height: 20,
                   ),
-                  /*Text(
+                  Text(
                     textQuestion5,
                   ),
                   Container(
@@ -233,7 +233,7 @@ class _FormularyState extends State<Formulary> {
                   ),
                   SizedBox(
                     height: 20,
-                  ),*/
+                  ),
                   ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
