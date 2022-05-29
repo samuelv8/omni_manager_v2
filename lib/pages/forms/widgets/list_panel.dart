@@ -78,7 +78,7 @@ class _ListPanelState extends State<ListPanel> {
                   child: Formulary(
                       key: UniqueKey(),
                       isManager: true,
-                      employee: item.expandedValue)),
+                      uid: item.expandedValue)),
             ),
             isExpanded: item.isExpanded,
           );
