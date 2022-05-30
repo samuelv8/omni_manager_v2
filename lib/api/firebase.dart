@@ -77,9 +77,8 @@ class Database {
     return employee.get(FieldPath(['ref'])).get();
   }
 
-  static Future<DocumentReference> addForm(
-      String? employee, bool isManager) async {
-    return _metrics.doc(employee).collection('Formularies').add({
+  static Future<DocumentReference> addForm(String? uid, bool isManager) async {
+    return _metrics.doc(uid).collection('Formularies').add({
       'release_date': Timestamp.fromDate(DateTime.now()),
       'is_filled': false,
       'is_manager': isManager,
@@ -87,8 +86,8 @@ class Database {
   }
 
   static Future<QuerySnapshot> getUnfilledForm(
-      {required bool isManager, String? employee}) {
-    var docId = isManager ? employee : userUid;
+      {required bool isManager, String? uid}) {
+    var docId = isManager ? uid : userUid;
     return _metrics
         .doc(docId)
         .collection('Formularies')
@@ -131,16 +130,16 @@ class Database {
         .get();
   }
 
-
-  ///Gets filled forms with path [empID], where 'is_manager' is equal to 
-  ///[isManager], and where release time is between [init] and [end]. 
+  ///Gets filled forms with path [empID], where 'is_manager' is equal to
+  ///[isManager], and where release time is between [init] and [end].
   ///Parameters [init] and [end] are optional, if they are not provided,
-  ///the default value will be respectively DateTime.fromMillisecondsSinceEpoch(0) 
+  ///the default value will be respectively DateTime.fromMillisecondsSinceEpoch(0)
   ///and DateTime.now()
   static Future<QuerySnapshot> getEmployeeFormsFromInitToEnd(
-      String empID, bool isManager, [DateTime? init, DateTime? end]) {
+      String empID, bool isManager,
+      [DateTime? init, DateTime? end]) {
     init = init ?? DateTime.fromMillisecondsSinceEpoch(0);
-    end  = end  ?? DateTime.now();
+    end = end ?? DateTime.now();
     return _metrics
         .doc(empID)
         .collection("Formularies")
@@ -148,8 +147,7 @@ class Database {
         .where('is_manager', isEqualTo: isManager)
         .where('release_date',
             isGreaterThanOrEqualTo: Timestamp.fromDate(init),
-            isLessThanOrEqualTo: Timestamp.fromDate(end)
-            )
+            isLessThanOrEqualTo: Timestamp.fromDate(end))
         .get();
   }
 
@@ -170,12 +168,13 @@ class Database {
 
   static Future<void> fillForms(
       {required bool isManager,
-      String? employee,
+      String? uid,
       int load: 0,
       int completion: 0,
       double quality: 0,
-      double proactivity: 0}) {
-    var docId = isManager ? employee : userUid;
+      double proactivity: 0,
+      double taskSize: 0}) {
+    var docId = isManager ? uid : userUid;
     return _metrics
         .doc(docId)
         .collection('Formularies')
@@ -188,6 +187,7 @@ class Database {
               'work_completion': completion,
               'work_quality': quality,
               'work_proactivity': proactivity,
+              'task_size': taskSize,
               'is_filled': true,
               'submission_date': Timestamp.now()
             }));
