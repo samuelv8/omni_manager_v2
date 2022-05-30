@@ -37,7 +37,18 @@ class _FormularyState extends State<Formulary> {
 
   String textQuestion4 = "How proactive was the employee?";
   String valueQuestion4 = 'Satisfatory';
-  var optionsQuestion4 = ['nothing', 'Litter', 'Satisfatoy', 'very much'];
+  var optionsQuestion4 = ['Nothing', 'Little', 'Satisfatory', 'Very much'];
+
+  String textQuestion5 =
+      "In general, how big were the tasks the employee was assigned to?";
+  String valueQuestion5 = 'Medium';
+  var optionsQuestion5 = [
+    'Very small',
+    'Small',
+    'Medium',
+    'Large',
+    'Very large'
+  ];
 
   @override
   void initState() {
@@ -74,7 +85,13 @@ class _FormularyState extends State<Formulary> {
                     textQuestion1,
                   ),
                   Container(
-                    width: 120,
+                    width: 320,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a number bigger than zero',
+                      ),
+                    ), /*
                     child: DropdownButtonFormField<String>(
                       value: valueQuestion1,
                       icon: const Icon(Icons.arrow_downward),
@@ -92,7 +109,7 @@ class _FormularyState extends State<Formulary> {
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                     height: 30,
@@ -101,8 +118,14 @@ class _FormularyState extends State<Formulary> {
                     textQuestion2,
                   ),
                   Container(
-                    width: 120,
-                    child: DropdownButtonFormField<String>(
+                    width: 320,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter a number bigger than zero',
+                      ),
+                    ),
+                    /*DropdownButtonFormField<String>(
                       value: valueQuestion2,
                       icon: const Icon(Icons.arrow_downward),
                       iconSize: 24,
@@ -127,7 +150,7 @@ class _FormularyState extends State<Formulary> {
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                     height: 30,
@@ -175,6 +198,33 @@ class _FormularyState extends State<Formulary> {
                         });
                       },
                       items: optionsQuestion4
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    textQuestion5,
+                  ),
+                  Container(
+                    width: 120,
+                    child: DropdownButtonFormField<String>(
+                      value: valueQuestion5,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          valueQuestion5 = newValue!;
+                        });
+                      },
+                      items: optionsQuestion5
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
