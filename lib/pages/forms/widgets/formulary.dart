@@ -65,7 +65,6 @@ class _FormularyState extends State<Formulary> {
   @override
   Widget build(BuildContext context) {
     if (!loaded) {
-      showSnackBar(text: 'Loading...', context: context);
       return Center(child: CircularProgressIndicator());
     }
     if (haveForms) {
@@ -91,25 +90,7 @@ class _FormularyState extends State<Formulary> {
                         border: OutlineInputBorder(),
                         hintText: 'Enter a number bigger than zero',
                       ),
-                    ), /*
-                    child: DropdownButtonFormField<String>(
-                      value: valueQuestion1,
-                      icon: const Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          valueQuestion1 = newValue!;
-                        });
-                      },
-                      items: optionsQuestion1
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),*/
+                    ),
                   ),
                   SizedBox(
                     height: 30,
@@ -125,32 +106,6 @@ class _FormularyState extends State<Formulary> {
                         hintText: 'Enter a number bigger than zero',
                       ),
                     ),
-                    /*DropdownButtonFormField<String>(
-                      value: valueQuestion2,
-                      icon: const Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (int.parse(value ?? '') >
-                            int.parse(valueQuestion2)) {
-                          return "Inexistent value";
-                        }
-                        return null;
-                      },
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          valueQuestion2 = newValue!;
-                        });
-                      },
-                      items: optionsQuestion2
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),*/
                   ),
                   SizedBox(
                     height: 30,
@@ -248,8 +203,7 @@ class _FormularyState extends State<Formulary> {
                         double proactivity =
                             optionsQuestion4.indexOf(valueQuestion4) /
                                 (optionsQuestion4.length - 1);
-                        showSnackBar(text: 'Loading...', context: context);
-                        Database.fillForms(
+                        await Database.fillForms(
                                 isManager: isManager,
                                 employee: employee,
                                 load: load,
@@ -257,9 +211,8 @@ class _FormularyState extends State<Formulary> {
                                 quality: quality,
                                 proactivity: proactivity)
                             .then((value) {
-                          hideSnackBar(context: context);
                           showSnackBar(
-                              text: 'Forms submitted successfully!',
+                              text: "Forms submitted successfully!",
                               context: context,
                               backgroundColor: Colors.green);
                           hideSnackBar(context: context);
@@ -267,7 +220,6 @@ class _FormularyState extends State<Formulary> {
                             haveForms = false;
                           });
                         }).catchError((err) {
-                          hideSnackBar(context: context);
                           showSnackBar(
                               text: "Failed to submit. Error: ${err.message}",
                               context: context,

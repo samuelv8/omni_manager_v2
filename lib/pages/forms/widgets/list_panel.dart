@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/forms/widgets/formulary.dart';
-import 'package:omni_manager/widgets/snackbar.dart';
 
 // stores ExpansionPanel state information
 class Item {
@@ -53,12 +52,10 @@ class _ListPanelState extends State<ListPanel> {
   @override
   Widget build(BuildContext context) {
     if (_data.isEmpty) {
-      showSnackBar(text: 'Loading...', context: context);
       return Container(
         child: Center(child: CircularProgressIndicator()),
       );
     }
-    hideSnackBar(context: context);
     return Container(
       width: MediaQuery.of(context).size.width,
       child: ExpansionPanelList(
