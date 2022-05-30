@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:omni_manager/api/firebase.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 import 'dart:convert';
 
 class Formulary extends StatefulWidget {
@@ -235,9 +236,6 @@ class _FormularyState extends State<Formulary> {
                         double taskSize =
                             optionsQuestion5.indexOf(valueQuestion5) /
                                 (optionsQuestion5.length - 1);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Loading...')),
-                        );
                         await Database.fillForms(
                                 isManager: isManager,
                                 uid: uid,
@@ -247,24 +245,10 @@ class _FormularyState extends State<Formulary> {
                                 proactivity: proactivity,
                                 taskSize: taskSize)
                             .then((value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Forms submitted successfully!'),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           setState(() {
                             haveForms = false;
                           });
                         }).catchError((err) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Failed to submit. Error: $err"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           setState(() {});
                         });
                       }

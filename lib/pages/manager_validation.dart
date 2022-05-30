@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:omni_manager/pages/home.dart';
 import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/api/firebase.dart';
+import 'package:omni_manager/widgets/snackbar.dart';
 
 class ValidationPage extends StatefulWidget {
   static const String routeName = "/validate";
@@ -125,7 +125,8 @@ class _ValidationPageState extends State<ValidationPage> {
                                     child: FocusScope(
                                       child: Focus(
                                         child: TextFormField(
-                                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           controller: _managerEmailController,
                                           keyboardType: TextInputType.text,
                                           validator: (value) {
@@ -146,7 +147,8 @@ class _ValidationPageState extends State<ValidationPage> {
                                           if (!value) {
                                             bool managerExists =
                                                 await Database.validateManager({
-                                              "email": _managerEmailController.text,
+                                              "email":
+                                                  _managerEmailController.text,
                                               "company":
                                                   _companyController.text,
                                               "department":
@@ -173,18 +175,26 @@ class _ValidationPageState extends State<ValidationPage> {
                                         "manager": !_employee,
                                         "manager_email":
                                             _managerEmailController.text
+                                      })
+                                              .then((value) => value)
+                                              .catchError((err) {
+                                        showSnackBar(
+                                            text:
+                                                "Failed to validate: ${err.message}",
+                                            context: context,
+                                            backgroundColor: Colors.red);
+                                        hideSnackBar(context: context);
+                                        return false;
                                       });
 
                                       if (successfulUpdate) {
+                                        showSnackBar(
+                                            text:
+                                                'Successful register! Please verify your e-mail to sing in, a verification e-mail has been sent to you.',
+                                            context: context,
+                                            backgroundColor: Colors.green);
+                                        hideSnackBar(context: context);
                                         sendEmailVerification();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              duration:  const Duration(seconds: 30),
-                                              content: Text('Successful register! A verification e-mail has been sent to you.'),
-                                              backgroundColor: Colors.green,
-                                          ),
-                                        );
                                         Navigator.pushReplacementNamed(
                                             context, LoginPage.routeName);
                                       }
