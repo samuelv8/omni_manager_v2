@@ -79,6 +79,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
+      title: 'Omni Manager',
       shortcuts: {
         LogicalKeySet(LogicalKeyboardKey.space): ActivateIntent(),
         LogicalKeySet(LogicalKeyboardKey.tab): ActivateIntent(),
