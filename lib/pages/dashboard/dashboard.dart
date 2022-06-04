@@ -10,14 +10,13 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wdth = MediaQuery.of(context).size.width;
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: MediaQuery.of(context).size.width - 75,
       alignment: Alignment.topLeft,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: 30.0, top: 30.0),
             child: CustomTextTitle(
@@ -28,11 +27,15 @@ class DashboardPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
+            child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Center(child: OverviewCardsLargeScreen()),
                 SizedBox(width: 40),
+                if(wdth>800)
                 Center(
                     child: Column(
                   children: [
@@ -46,6 +49,7 @@ class DashboardPage extends StatelessWidget {
                   ],
                 )),
                 SizedBox(width: 40),
+                if(wdth>950)
                 Center(
                     child: Column(
                   children: [
@@ -59,6 +63,7 @@ class DashboardPage extends StatelessWidget {
                   ],
                 )),
               ],
+            ),
             ),
           ),
         ],
