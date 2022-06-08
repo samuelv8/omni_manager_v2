@@ -46,7 +46,20 @@ class _HomePageState extends State<HomePage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Omni Manager"),
+        title: Row(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              fit: BoxFit.contain,
+              height: 75,
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.all(8.0), /*child: Text('YourAppTitle')*/
+            )
+          ],
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
