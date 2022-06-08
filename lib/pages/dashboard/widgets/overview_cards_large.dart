@@ -106,7 +106,7 @@ class _OverviewCardsState extends State<OverviewCardsLargeScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(10.0),
         child: Container(
           width: 200,
           child: loaded
