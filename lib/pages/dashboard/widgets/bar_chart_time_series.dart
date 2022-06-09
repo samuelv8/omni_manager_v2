@@ -3,18 +3,18 @@ import 'package:intl/intl.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-class TimeSeriesLineChart extends StatelessWidget {
+class TimeSeriesBarChart extends StatelessWidget {
   final List<charts.Series<TimeSeriesMetrics, DateTime>> tsSeries;
   final bool animate;
 
-  TimeSeriesLineChart(this.tsSeries, {this.animate = false});
+  TimeSeriesBarChart(this.tsSeries, {this.animate = false});
 
-  factory TimeSeriesLineChart.withUnformattedData(
+  factory TimeSeriesBarChart.withUnformattedData(
       Map<DateTime, double>? rawData) {
     if (rawData != null) {
-      return new TimeSeriesLineChart(_formatData(rawData));
+      return new TimeSeriesBarChart(_formatData(rawData));
     } else
-      return new TimeSeriesLineChart(_sampleData());
+      return new TimeSeriesBarChart(_sampleData());
   }
 
   static List<charts.Series<TimeSeriesMetrics, DateTime>> _sampleData() {
@@ -52,14 +52,11 @@ class TimeSeriesLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final numFormatter = charts.BasicNumericTickFormatterSpec.fromNumberFormat(
-        NumberFormat.percentPattern());
     return new charts.TimeSeriesChart(
       tsSeries,
       animate: animate,
-      defaultRenderer: charts.LineRendererConfig<DateTime>(),
+      defaultRenderer: charts.BarRendererConfig<DateTime>(),
       dateTimeFactory: const charts.LocalDateTimeFactory(),
-      primaryMeasureAxis: charts.NumericAxisSpec(tickFormatterSpec: numFormatter, ),
     );
   }
 }
