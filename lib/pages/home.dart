@@ -6,6 +6,7 @@ import 'package:omni_manager/pages/login.dart';
 import 'package:omni_manager/pages/settings/settings.dart';
 import 'package:omni_manager/pages/spreadsheet/spreadsheet.dart';
 import 'package:omni_manager/utils/shared_prefs.dart';
+import 'package:omni_manager/pages/tutorial/tutorial.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home";
@@ -46,7 +47,20 @@ class _HomePageState extends State<HomePage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Omni Manager"),
+        title: Row(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              fit: BoxFit.contain,
+              height: 75,
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.all(8.0), /*child: Text('YourAppTitle')*/
+            )
+          ],
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
@@ -86,6 +100,10 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.settings_outlined),
                   label: Text("Settings"),
                   selectedIcon: Icon(Icons.settings)),
+              NavigationRailDestination(
+                  icon: Icon(Icons.help),
+                  label: Text("Tutorial"),
+                  selectedIcon: Icon(Icons.help)),
             ],
           ),
           const VerticalDivider(
@@ -109,6 +127,8 @@ Widget _pageAtIndex(int index) {
         return FormsPage();
       case 3:
         return SettingsPage();
+      case 4:
+        return TutorialPage();
     }
   } else {
     switch (index) {
@@ -116,6 +136,8 @@ Widget _pageAtIndex(int index) {
         return FormsPage();
       case 1:
         return SettingsPage();
+      case 2:
+        return TutorialPage();
     }
   }
 
