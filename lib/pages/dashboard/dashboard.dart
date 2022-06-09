@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:omni_manager/pages/dashboard/widgets/bar_chart_section.dart';
 import 'package:omni_manager/pages/dashboard/widgets/custom_text_title.dart';
 import 'package:omni_manager/pages/dashboard/widgets/overview_cards_large.dart';
+import 'package:omni_manager/pages/dashboard/widgets/time_series_section.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class DashboardPage extends StatelessWidget {
                       weight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                    BarChartDash(isManager: true),
+                    TimeSeriesDash(isManager: true),
                   ],
                 )),
                 SizedBox(width: 40),
@@ -59,7 +58,7 @@ class DashboardPage extends StatelessWidget {
                       weight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                    BarChartDash(isManager: false),
+                    TimeSeriesDash(isManager: false),
                   ],
                 )),
               ],
