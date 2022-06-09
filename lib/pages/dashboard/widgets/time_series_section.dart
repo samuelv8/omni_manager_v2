@@ -43,6 +43,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
               text: "Error: time duration less than 0",
               context: context,
               backgroundColor: Colors.red);
+          hideSnackBar(context: context);
         } else
           return DateFormat('dd/MM/yyyy').format(picked);
       } else {
@@ -54,6 +55,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
               text: "Error: time duration less than 0",
               context: context,
               backgroundColor: Colors.red);
+          hideSnackBar(context: context);
         } else
           return DateFormat('dd/MM/yyyy').format(picked);
       }
@@ -76,8 +78,10 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
   Map<String, double>? _empDataCompl;
   List<String>? _empNames;
   String? _selected;
+  DateTime _start = DateTime.now().add(const Duration(days: -30));
+  DateTime _end = DateTime.now();
 
-  void _getEmployeeData() async {
+  void _getEmployeeData(DateTime start, DateTime end) async {
     Map<String, Map<DateTime, double>> empDataFrameCompletionPct = {'': {}};
     Map<String, Map<DateTime, double>> empDataFrameAttributed = {'': {}};
     List<String> empNames = [];
@@ -91,7 +95,8 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
             return data["name"] as String;
           });
           empNames.add(empName);
-          var empForms = Database.getEmployeeForms(empID, isManager);
+          var empForms = Database.getEmployeeFormsFromInitToEnd(
+              empID, isManager, start, end);
           await empForms.then((snapshot) {
             if (snapshot.size != 0) {
               Map<DateTime, double> empTimeSeriesCompl = {};
@@ -129,7 +134,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
   @override
   void initState() {
     super.initState();
-    _getEmployeeData();
+    _getEmployeeData(_start, _end);
   }
 
   @override
@@ -211,8 +216,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                 ),
                 Container(
                     width: 400,
-                    height:
-                        150, 
+                    height: 150,
                     child: loaded
                         ? new TimeSeriesBarChart.withUnformattedData(
                             _empDataFrameAttributed?[_selected])
@@ -226,8 +230,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                 child: TextFormField(
                   controller: startDate
                     ..text = DateFormat('dd/MM/yyyy')
-                        .format(DateTime.now()
-                            .add(const Duration(minutes: -60 * 24 * 30)))
+                        .format(_start)
                         .toString(),
                   enabled: false,
                   style: TextStyle(color: dark),
@@ -255,7 +258,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                 child: TextFormField(
                   controller: endDate
                     ..text = DateFormat('dd/MM/yyyy')
-                        .format(DateTime.now())
+                        .format(_end)
                         .toString(),
                   enabled: false,
                   style: TextStyle(color: dark),
@@ -292,6 +295,9 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                     bool isStart = true;
                     startDate.text =
                         await _selectDate(context, startDate, isStart);
+                    setState(() {
+                      _start = DateFormat('dd/MM/yyyy').parse(startDate.text);
+                    });
                   },
                   child: Text('Select date'),
                 ),
@@ -304,6 +310,9 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                   onPressed: () async {
                     bool isStart = false;
                     endDate.text = await _selectDate(context, endDate, isStart);
+                    setState(() {
+                      _end = DateFormat('dd/MM/yyyy').parse(endDate.text);
+                    });
                   },
                   child: Text('Select date'),
                 ),
@@ -314,11 +323,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
           Container(width: 350, height: 16, color: Colors.white),
           ElevatedButton(
             onPressed: () {
-              DateTime start = DateFormat('dd/MM/yyyy').parse(startDate.text);
-              DateTime end = DateFormat('dd/MM/yyyy').parse(endDate.text);
-              Future<QuerySnapshot> data =
-                  Database.getEmployeeFormsFromInitToEnd(
-                      getUserUid(), isManager, start, end);
+              _getEmployeeData(_start, _end);
             },
             child: Text('Filter'),
           ),
