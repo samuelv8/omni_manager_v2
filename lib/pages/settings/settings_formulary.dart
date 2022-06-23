@@ -33,12 +33,6 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
 
   final _repeatpasswordController = TextEditingController();
 
-  String textQuestion1 = "Enter your new user email:";
-
-  String textQuestion2 = "Enter your new password:";
-
-  String textQuestion3 = "Enter your new password again:";
-
   final RegExp reg = new RegExp(
       r"^[a-z\.0-9]+@((gmail\.com)|(outlook\.com)|(live\.com)|(hotmail\.com)|(mac\.com)|(icloud\.com)|(me\.com)|(manager\.com)|(ga\.ita\.br)|(gp\.ita\.br)|(ita\.br)|(yahoo\.com\.br))$");
 
