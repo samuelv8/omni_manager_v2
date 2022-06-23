@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:omni_manager/api/firebase.dart';
 import '../home.dart';
+import '../login.dart';
 import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/widgets/snackbar.dart';
 
@@ -55,7 +56,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   Container(
                     width: 300,
@@ -79,7 +80,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   ElevatedButton(
                     onPressed: () async {
@@ -97,12 +98,13 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                                                 return false;
                                               });
                         if(successfulEmail){
+                          sendEmailVerification();
                           Navigator.pushReplacementNamed(
                               context,
-                              HomePage.routeName);
+                              LoginPage.routeName);
                           showSnackBar(
                               text:
-                                  'Your e-mail has been updated.',
+                                  'Your e-mail has been updated. A verification e-mail has been sent to you.',
                               context: context,
                               backgroundColor: Colors.green);
                         }
@@ -111,7 +113,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                     child: Text("Change e-mail"),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     width: 300,
@@ -136,7 +138,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     width: 300,
@@ -164,7 +166,7 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   ElevatedButton(
                     onPressed: () async {
@@ -225,18 +227,22 @@ class _SettingsFormularyState extends State<SettingsFormulary> {
                                                 return false;
                                               });
                         if(successfulEmail && successfulPassword){
+                          sendEmailVerification();
                           Navigator.pushReplacementNamed(
                               context,
-                              HomePage.routeName);
+                              LoginPage.routeName);
                           showSnackBar(
                               text:
-                                  'Your data has been updated.',
+                                  'Your data has been updated. A verification e-mail has been sent to you.',
                               context: context,
                               backgroundColor: Colors.green);
                         }
                       }
                     },
                     child: Text("Change e-mail and password"),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                 ],
               ),
