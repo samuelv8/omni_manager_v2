@@ -123,9 +123,10 @@ Future<bool> updateUserData(Map<String, dynamic> userData) async {
   }
 }
 
-Future<void> sendRecoveryEmail(String userEmail) async {
+Future<void> sendRecoveryEmail(String userEmail, [FirebaseAuth? firebaseAuthInstance]) async {
   try {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
+    firebaseAuthInstance = firebaseAuthInstance ?? FirebaseAuth.instance;
+    await firebaseAuthInstance.sendPasswordResetEmail(email: userEmail);
   } on FirebaseAuthException catch (e) {
     throw e;
   }
