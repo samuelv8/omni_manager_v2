@@ -160,6 +160,20 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
+                    child: Text("Employee 1", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  ),
+                Container(),
+                Container(
+                  child: Text("Employee 2", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                )
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
                     child: loaded
                         ? Center(
                             child: DropdownButton<String>(
