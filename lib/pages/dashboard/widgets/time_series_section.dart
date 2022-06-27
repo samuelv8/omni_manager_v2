@@ -73,6 +73,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
 
   Map<String, Map<DateTime, double>>? _empDataFrameCompletionPct;
   Map<String, Map<DateTime, double>>? _empDataFrameAttributed;
+  Map<String, Map<DateTime, double>>? _empDataFrameSum;
   //Map<String, double>? _empDataCompl;
   List<String>? _empNames;
   String? _selectedEmp1, _selectedEmp2;
@@ -82,6 +83,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
   void _getEmployeeData(DateTime start, DateTime end) async {
     Map<String, Map<DateTime, double>> empDataFrameCompletionPct = {'': {}};
     Map<String, Map<DateTime, double>> empDataFrameAttributed = {'': {}};
+    Map<String, Map<DateTime, double>> empDataFrameSum = {'AVG': {}};
     List<String> empNames = [];
     await _employees.then((query) async {
       if (query.size != 0) {
@@ -115,6 +117,15 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                   empName, () => empTimeSeriesCompl);
               empDataFrameAttributed.putIfAbsent(
                   empName, () => empTimeSeriesAttr);
+              empTimeSeriesCompl.forEach((date, rate) { 
+                  if(empDataFrameSum['AVG']!.containsKey(date)){
+                    empDataFrameSum['AVG']![date] = empDataFrameSum['AVG']![date]! + rate;
+                  } else{
+                    empDataFrameSum['AVG']![date] = empTimeSeriesCompl[date]!;
+                  }
+              });
+              empDataFrameSum.putIfAbsent(empName, () => empTimeSeriesCompl);
+              empDataFrameSum['AVG']!.forEach((date, rate) { empDataFrameSum['AVG']![date] = empDataFrameSum['AVG']![date]!/empNames.length;});
             }
           });
         }
@@ -124,6 +135,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
       _empDataFrameCompletionPct = empDataFrameCompletionPct;
       _empDataFrameAttributed = empDataFrameAttributed;
       _empNames = empNames;
+      _empDataFrameSum = empDataFrameSum;
       _selectedEmp1 = empNames[0];
       _selectedEmp2 = empNames[0];
       loaded = true;
@@ -239,7 +251,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                     child: loaded
                         ? new TimeSeriesLineChart.withUnformattedDataFrame(
                             _empDataFrameCompletionPct,
-                            [_selectedEmp1!, _selectedEmp2!])
+                            [_selectedEmp1!, _selectedEmp2!], _empNames, _empDataFrameSum)
                         : Center(child: CircularProgressIndicator()))
               ],
             ),
