@@ -351,6 +351,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                     setState(() {
                       _start = DateFormat('dd/MM/yyyy').parse(startDate.text);
                     });
+                    
                   },
                   child: Text('Select date'),
                 ),
