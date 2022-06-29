@@ -18,11 +18,12 @@ class TimeSeriesLineChart extends StatelessWidget {
   }
 
   factory TimeSeriesLineChart.withUnformattedDataFrame(
-      Map<String, Map<DateTime, double>>? df, List<String> columns) {
+      Map<String, Map<DateTime, double>>? df, List<String> columns, List<String>? empNames, Map<String, Map<DateTime, double>>? dfsum) {
     if (df != null && !columns.every((element) => element == columns[0]))
       return new TimeSeriesLineChart(_formatDataFrame(df, columns));
     else if (df != null && columns.every((element) => element == columns[0]))
-      return new TimeSeriesLineChart.withUnformattedData(df[columns[0]], columns[0]);
+      // return new TimeSeriesLineChart.withUnformattedData(df[columns[0]], columns[0]);
+      return new TimeSeriesLineChart(_formatDataFrame(dfsum!, [columns[0], 'AVG']));
     else
       return new TimeSeriesLineChart(_sampleData());
   }
