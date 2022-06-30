@@ -39,10 +39,7 @@ void main() {
       'R3': 3,
       'R4': 4,
     });
-    print(userId);
     final ratings = await listRatings(userId);
-    print(ratings.docs.first.data());
-    print(instance.dump());
     expect(ratings.docs.first.data(), obj);
   });
 }
