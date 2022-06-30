@@ -77,6 +77,17 @@ Future<bool> updateInfo(String password) async {
   }
 }
 
+Future<bool> changeEmail(String email) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) await user.updateEmail(email);
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
 Future<bool> isUserManager(userUid) async {
   final snapshot = await users.doc(userUid).get();
   if (snapshot.exists) {
