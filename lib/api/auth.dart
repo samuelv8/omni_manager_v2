@@ -14,9 +14,11 @@ Future<UserCredential> signIn(String email, String password) async {
   }
 }
 
-Future<void> sendEmailVerification() async {
+
+Future<void> sendEmailVerification([FirebaseAuth? firebaseAuthInstance]) async {
   try {
-    User? user = FirebaseAuth.instance.currentUser;
+    firebaseAuthInstance = firebaseAuthInstance ?? FirebaseAuth.instance;
+    User? user = firebaseAuthInstance.currentUser;
     if (user!= null && !user.emailVerified) {
       await user.sendEmailVerification();
     }

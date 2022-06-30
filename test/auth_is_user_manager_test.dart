@@ -25,10 +25,7 @@ void main() {
     });
     final snapshot = await instance.collection('users').get();
     final userId = snapshot.docs.first.id;
-    print(userId);
     isMan = await isUserManager(userId);
-    print(isMan);
-    print(instance.dump());
     expect(isMan, true);
   });
 }
