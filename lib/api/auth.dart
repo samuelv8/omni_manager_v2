@@ -5,14 +5,15 @@ import 'package:omni_manager/utils/shared_prefs.dart';
 CollectionReference users = FirebaseFirestore.instance.collection("Users");
 bool loggedUserIsManager = false;
 
-Future<UserCredential> signIn(String email, String password) async {
+Future<UserCredential> signIn(String email, String password, [FirebaseAuth? firebaseAuthInstance]) async {
   try {
-    return FirebaseAuth.instance
+    firebaseAuthInstance = firebaseAuthInstance ?? FirebaseAuth.instance;
+    return firebaseAuthInstance
         .signInWithEmailAndPassword(email: email, password: password);
   } catch (e) {
     return Future.error(e);
   }
-}
+} 
 
 
 Future<void> sendEmailVerification([FirebaseAuth? firebaseAuthInstance]) async {
