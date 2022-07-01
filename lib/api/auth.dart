@@ -14,9 +14,11 @@ Future<UserCredential> signIn(String email, String password) async {
   }
 }
 
-Future<void> sendEmailVerification() async {
+
+Future<void> sendEmailVerification([FirebaseAuth? firebaseAuthInstance]) async {
   try {
-    User? user = FirebaseAuth.instance.currentUser;
+    firebaseAuthInstance = firebaseAuthInstance ?? FirebaseAuth.instance;
+    User? user = firebaseAuthInstance.currentUser;
     if (user!= null && !user.emailVerified) {
       await user.sendEmailVerification();
     }
@@ -75,6 +77,17 @@ Future<bool> updateInfo(String password) async {
   }
 }
 
+Future<bool> changeEmail(String email) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) await user.updateEmail(email);
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
 Future<bool> isUserManager(userUid) async {
   final snapshot = await users.doc(userUid).get();
   if (snapshot.exists) {
@@ -123,9 +136,10 @@ Future<bool> updateUserData(Map<String, dynamic> userData) async {
   }
 }
 
-Future<void> sendRecoveryEmail(String userEmail) async {
+Future<void> sendRecoveryEmail(String userEmail, [FirebaseAuth? firebaseAuthInstance]) async {
   try {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
+    firebaseAuthInstance = firebaseAuthInstance ?? FirebaseAuth.instance;
+    await firebaseAuthInstance.sendPasswordResetEmail(email: userEmail);
   } on FirebaseAuthException catch (e) {
     throw e;
   }

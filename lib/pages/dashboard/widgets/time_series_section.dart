@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_manager/api/auth.dart';
 import 'package:omni_manager/constants/style.dart';
 import 'package:omni_manager/api/firebase.dart';
 import 'package:omni_manager/pages/dashboard/widgets/bar_chart_time_series.dart';
 import 'package:omni_manager/pages/dashboard/widgets/line_chart.dart';
 import 'package:omni_manager/pages/dashboard/widgets/custom_text_content.dart';
-import 'package:omni_manager/pages/dashboard/widgets/pie_chart.dart';
 import 'package:omni_manager/widgets/snackbar.dart';
 
 class TimeSeriesDash extends StatefulWidget {
@@ -75,15 +73,17 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
 
   Map<String, Map<DateTime, double>>? _empDataFrameCompletionPct;
   Map<String, Map<DateTime, double>>? _empDataFrameAttributed;
-  Map<String, double>? _empDataCompl;
+  Map<String, Map<DateTime, double>>? _empDataFrameSum;
+  //Map<String, double>? _empDataCompl;
   List<String>? _empNames;
-  String? _selected;
+  String? _selectedEmp1, _selectedEmp2;
   DateTime _start = DateTime.now().add(const Duration(days: -30));
   DateTime _end = DateTime.now();
 
   void _getEmployeeData(DateTime start, DateTime end) async {
     Map<String, Map<DateTime, double>> empDataFrameCompletionPct = {'': {}};
     Map<String, Map<DateTime, double>> empDataFrameAttributed = {'': {}};
+    Map<String, Map<DateTime, double>> empDataFrameSum = {'AVG': {}};
     List<String> empNames = [];
     await _employees.then((query) async {
       if (query.size != 0) {
@@ -105,8 +105,8 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                 var data = form.data() as Map<String, dynamic>;
                 var compl = data["work_completion"] as num;
                 var wl = data['work_load'] as double;
-                var date_tmstp = data['submission_date'] as Timestamp?;
-                var date = date_tmstp?.toDate();
+                var dateTmstp = data['submission_date'] as Timestamp?;
+                var date = dateTmstp?.toDate();
                 if (date != null) {
                   empTimeSeriesCompl.putIfAbsent(date, () => compl / wl);
                   empTimeSeriesAttr.putIfAbsent(date, () => wl);
@@ -117,6 +117,15 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                   empName, () => empTimeSeriesCompl);
               empDataFrameAttributed.putIfAbsent(
                   empName, () => empTimeSeriesAttr);
+              empTimeSeriesCompl.forEach((date, rate) { 
+                  if(empDataFrameSum['AVG']!.containsKey(date)){
+                    empDataFrameSum['AVG']![date] = empDataFrameSum['AVG']![date]! + rate;
+                  } else{
+                    empDataFrameSum['AVG']![date] = empTimeSeriesCompl[date]!;
+                  }
+              });
+              empDataFrameSum.putIfAbsent(empName, () => empTimeSeriesCompl);
+              empDataFrameSum['AVG']!.forEach((date, rate) { empDataFrameSum['AVG']![date] = empDataFrameSum['AVG']![date]!/empNames.length;});
             }
           });
         }
@@ -126,7 +135,9 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
       _empDataFrameCompletionPct = empDataFrameCompletionPct;
       _empDataFrameAttributed = empDataFrameAttributed;
       _empNames = empNames;
-      _selected = empNames[0];
+      _empDataFrameSum = empDataFrameSum;
+      _selectedEmp1 = empNames[0];
+      _selectedEmp2 = empNames[0];
       loaded = true;
     });
   }
@@ -157,26 +168,70 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
       child: Column(
         children: [
           Container(
-              child: loaded
-                  ? Center(
-                      child: DropdownButton<String>(
-                      value: _selected,
-                      icon: const Icon(Icons.arrow_downward),
-                      items:
-                          _empNames?.map<DropdownMenuItem<String>>((String e) {
-                        return DropdownMenuItem(value: e, child: Text(e));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selected = newValue!;
-                        });
-                      },
-                      dropdownColor: Colors.yellow,
-                      iconEnabledColor: Colors.black,
-                      iconDisabledColor: Colors.black,
-                      style: TextStyle(color: Colors.black),
-                    ))
-                  : Center(child: CircularProgressIndicator())),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    child: Text("Employee 1", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  ),
+                Container(),
+                Container(
+                  child: Text("Employee 2", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                )
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    child: loaded
+                        ? Center(
+                            child: DropdownButton<String>(
+                            value: _selectedEmp1,
+                            icon: const Icon(Icons.arrow_downward),
+                            items: _empNames
+                                ?.map<DropdownMenuItem<String>>((String e) {
+                              return DropdownMenuItem(value: e, child: Text(e));
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedEmp1 = newValue!;
+                              });
+                            },
+                            dropdownColor: Colors.yellow,
+                            iconEnabledColor: Colors.black,
+                            iconDisabledColor: Colors.black,
+                            style: TextStyle(color: Colors.black),
+                          ))
+                        : Center(child: CircularProgressIndicator())),
+                Container(),
+                Container(
+                  child: loaded
+                      ? Center(
+                          child: DropdownButton<String>(
+                          value: _selectedEmp2,
+                          icon: const Icon(Icons.arrow_downward),
+                          items: _empNames
+                              ?.map<DropdownMenuItem<String>>((String e) {
+                            return DropdownMenuItem(value: e, child: Text(e));
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedEmp2 = newValue!;
+                            });
+                          },
+                          dropdownColor: Colors.yellow,
+                          iconEnabledColor: Colors.black,
+                          iconDisabledColor: Colors.black,
+                          style: TextStyle(color: Colors.black),
+                        ))
+                      : Center(child: CircularProgressIndicator()),
+                )
+              ],
+            ),
+          ),
           Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -194,8 +249,9 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                     width: 360,
                     height: 150,
                     child: loaded
-                        ? new TimeSeriesLineChart.withUnformattedData(
-                            _empDataFrameCompletionPct?[_selected])
+                        ? new TimeSeriesLineChart.withUnformattedDataFrame(
+                            _empDataFrameCompletionPct,
+                            [_selectedEmp1!, _selectedEmp2!], _empNames, _empDataFrameSum)
                         : Center(child: CircularProgressIndicator()))
               ],
             ),
@@ -218,8 +274,9 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                     width: 400,
                     height: 150,
                     child: loaded
-                        ? new TimeSeriesBarChart.withUnformattedData(
-                            _empDataFrameAttributed?[_selected])
+                        ? new TimeSeriesBarChart.withUnformattedDataFrame(
+                            _empDataFrameAttributed,
+                            [_selectedEmp1!, _selectedEmp2!])
                         : Center(child: CircularProgressIndicator())),
               ],
             ),
@@ -229,9 +286,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
               Flexible(
                 child: TextFormField(
                   controller: startDate
-                    ..text = DateFormat('dd/MM/yyyy')
-                        .format(_start)
-                        .toString(),
+                    ..text = DateFormat('dd/MM/yyyy').format(_start).toString(),
                   enabled: false,
                   style: TextStyle(color: dark),
                   keyboardType: TextInputType.datetime,
@@ -257,9 +312,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
               Flexible(
                 child: TextFormField(
                   controller: endDate
-                    ..text = DateFormat('dd/MM/yyyy')
-                        .format(_end)
-                        .toString(),
+                    ..text = DateFormat('dd/MM/yyyy').format(_end).toString(),
                   enabled: false,
                   style: TextStyle(color: dark),
                   keyboardType: TextInputType.datetime,
@@ -298,6 +351,7 @@ class _StatefulWrapperState extends State<TimeSeriesDash> {
                     setState(() {
                       _start = DateFormat('dd/MM/yyyy').parse(startDate.text);
                     });
+                    
                   },
                   child: Text('Select date'),
                 ),
